@@ -1,5 +1,11 @@
  body {
      background-color: #EEC143 !important;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+ }
+
+ html * {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    letter-spacing: 2px;
  }
 
  .contain {
@@ -24,6 +30,9 @@
  li:hover {
     background-color:#EEC143
  }
+ li:active {
+    background-color: #EEC143
+ }
 
  .jumbo{
     background-color:#EEC143 !important;
@@ -42,6 +51,13 @@
     text-align:center;
     text-transform:capitalize;
     font-size:20px;
-    color:white
+    color:white;
+    padding:5px;
 
+ }
+
+ .header {
+    text-align:center;
+    color:white;
+    font-size: 60px;
  }

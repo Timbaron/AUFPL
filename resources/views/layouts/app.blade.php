@@ -22,13 +22,14 @@
 
 <body class="antialiased">
     <div class="container contain">
+        <h4 class="header">Welcome to AU-FPL</h4>
         <div class="menu mt-4">
             <ul class="nav justify-content-center">
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Points</a>
+                    <a class="nav-link" href="#">Points</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">select Team</a>
