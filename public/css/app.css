@@ -3,12 +3,10 @@
  }
 
  .contain {
-     /* display: grid;
-     place-items: center; */
      margin: 100px 50px 100px 50px;
      border-radius: 3%;
-     /* width: 80%; */
-     height: 700px;
+     height: auto;
+     padding: 10px;
      background-color: black
  }
 
@@ -25,4 +23,25 @@
  }
  li:hover {
     background-color:#EEC143
+ }
+
+ .jumbo{
+    background-color:#EEC143 !important;
+ }
+ .infos{
+    display:flex;
+    justify-content: space-around;
+    gap: .5rem;
+ }
+
+ .info {
+    aspect-ratio: 2/1;
+    width:200px;
+    border-radius: 9px;
+    background-color:#000;
+    text-align:center;
+    text-transform:capitalize;
+    font-size:20px;
+    color:white
+
  }
