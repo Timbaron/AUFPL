@@ -1,0 +1,28 @@
+ body {
+     background-color: #EEC143 !important;
+ }
+
+ .contain {
+     /* display: grid;
+     place-items: center; */
+     margin: 100px 50px 100px 50px;
+     border-radius: 3%;
+     /* width: 80%; */
+     height: 700px;
+     background-color: black
+ }
+
+ li {
+    background-color: #fff;
+    width:200px;
+    border-radius:9px;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    text-transform: uppercase;
+    justify-content: space-around;
+    margin-left: 10px;
+    text-align: center
+ }
+ li:hover {
+    background-color:#EEC143
+ }
