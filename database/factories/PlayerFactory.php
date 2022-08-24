@@ -18,10 +18,12 @@ class PlayerFactory extends Factory
     public function definition()
     {
         $clubs = Club::all()->pluck('id')->toArray();
+        $positions = ['GK','DF','MF','FW'];
         return [
             'name' => fake()->name(),
             'price' => fake()->numberBetween(4.0,13.0),
-            'club_id' => fake()->randomElement($clubs)
+            'club_id' => fake()->randomElement($clubs),
+            'position' => fake()->randomElement($positions)
         ];
     }
 }
