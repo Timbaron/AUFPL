@@ -7,7 +7,7 @@
     <h1 class="display-8">Gameweek 1</h1>
 
     <p class="lead">
-        <a class="btn btn-secondary btn-lg" href="#" role="button">My Team</a>
+        <a class="btn btn-secondary btn-lg" href="#" role="button">My Squad</a>
     </p>
     <div class="infos">
         <div class="info">

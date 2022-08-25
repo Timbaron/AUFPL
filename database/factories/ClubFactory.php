@@ -17,7 +17,7 @@ class CLubFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->firstName(). 'FC',
+            'name' => fake()->firstName(). ' FC',
             'owner' => fake()->name(),
             'manager' => fake()->name()
         ];

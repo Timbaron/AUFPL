@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SquadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/select-squad', [SquadController::class, 'select'])->name('squad.select');

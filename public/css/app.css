@@ -61,3 +61,21 @@
     color:white;
     font-size: 60px;
  }
+.squadSelectInfo{
+    color:white;
+    text-align: center;
+    margin-top:10px;
+}
+
+.squadSelectSearch {
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    /* width: 80%; */
+    margin: 0 auto 0 auto;
+}
+
+.squadSelectSearchItem {
+    margin-right: 10px;
+}
+

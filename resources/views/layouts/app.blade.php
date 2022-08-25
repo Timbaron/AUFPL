@@ -32,7 +32,7 @@
                     <a class="nav-link" href="#">Points</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">select Team</a>
+                    <a class="nav-link" href="{{route('squad.select')}}">select squad</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Transfer</a>

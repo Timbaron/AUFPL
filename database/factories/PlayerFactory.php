@@ -21,6 +21,7 @@ class PlayerFactory extends Factory
         $positions = ['GK','DF','MF','FW'];
         return [
             'name' => fake()->name(),
+            'player_id' => uniqid('AUFPL-'),
             'price' => fake()->numberBetween(4.0,13.0),
             'club_id' => fake()->randomElement($clubs),
             'position' => fake()->randomElement($positions)
