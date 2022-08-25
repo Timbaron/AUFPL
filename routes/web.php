@@ -17,5 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::namespace('Merchant')
+    ->prefix('merchant')
+    ->name('merchant.')
+    ->middleware(['auth'])
+    ->group(
+        function () {});
 
 Route::get('/select-squad', [SquadController::class, 'select'])->name('squad.select');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

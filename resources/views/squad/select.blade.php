@@ -4,7 +4,7 @@
 
 @section('content')
 <p class="squadSelectInfo">You can select maximum on 3 players from a Team</p>
-<p class="squadSelectInfo">Transfer Balance: $100</p>
+<p class="squadSelectInfo">Transfer Balance: ${{auth()->user()->balance}}</p>
 
 <div class="squadSelectSearch">
     <div class="squadSelectSearchItem">
