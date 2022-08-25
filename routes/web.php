@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SquadController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +18,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::namespace('Merchant')
-    ->prefix('merchant')
-    ->name('merchant.')
-    ->middleware(['auth'])
+Route::middleware(['auth'])
     ->group(
-        function () {});
+        function () {
+            Route::post('/logout', function () {
+                Auth::logout();
+                return view('welcome');
+            })->name('logout');
 
-Route::get('/select-squad', [SquadController::class, 'select'])->name('squad.select');
+            Route::get('/select-squad', [SquadController::class, 'select'])->name('squad.select');
+        }
+    );
 
-Auth::routes();
+
+Auth::routes(['logout' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

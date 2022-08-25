@@ -1,11 +1,11 @@
  body {
      background-color: #EEC143 !important;
-    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+     /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
  }
 
  html * {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    letter-spacing: 2px;
+     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+     letter-spacing: 2px;
  }
 
  .contain {
@@ -17,65 +17,74 @@
  }
 
  li {
-    background-color: #fff;
-    width:200px;
-    border-radius:9px;
-    letter-spacing: 2px;
-    margin-top: 20px;
-    text-transform: uppercase;
-    justify-content: space-around;
-    margin-left: 10px;
-    text-align: center
- }
- li:hover {
-    background-color:#EEC143
- }
- li:active {
-    background-color: #EEC143
+     background-color: #fff;
+     width: 200px;
+     border-radius: 9px;
+     letter-spacing: 2px;
+     margin-top: 20px;
+     text-transform: uppercase;
+     justify-content: space-around;
+     margin-left: 10px;
+     text-align: center
  }
 
- .jumbo{
-    background-color:#EEC143 !important;
+ li:hover {
+     background-color: #EEC143
  }
- .infos{
-    display:flex;
-    justify-content: space-around;
-    gap: .5rem;
+
+ li:active {
+     background-color: #EEC143
+ }
+
+ .jumbo {
+     background-color: #EEC143 !important;
+ }
+
+ .infos {
+     display: flex;
+     justify-content: space-around;
+     gap: .5rem;
  }
 
  .info {
-    aspect-ratio: 2/1;
-    width:200px;
-    border-radius: 9px;
-    background-color:#000;
-    text-align:center;
-    text-transform:capitalize;
-    font-size:20px;
-    color:white;
-    padding:5px;
+     aspect-ratio: 2/1;
+     width: 200px;
+     border-radius: 9px;
+     background-color: #000;
+     text-align: center;
+     text-transform: capitalize;
+     font-size: 20px;
+     color: white;
+     padding: 5px;
 
  }
 
  .header {
-    text-align:center;
-    color:white;
-    font-size: 60px;
+     text-align: center;
+     color: white;
+     font-size: 60px;
  }
-.squadSelectInfo{
-    color:white;
-    text-align: center;
-    margin-top:10px;
-}
 
-.squadSelectSearch {
-    display: flex;
-    align-items: center;
-    justify-content:space-around;
-    /* width: 80%; */
-    margin: 0 auto 0 auto;
-}
+ .squadSelectInfo {
+     color: white;
+     text-align: center;
+     margin-top: 10px;
+ }
 
-.squadSelectSearchItem {
-    margin-right: 10px;
-}
+ .squadSelectSearch {
+     display: flex;
+     align-items: center;
+     justify-content: space-around;
+     /* width: 80%; */
+     margin: 0 auto 0 auto;
+ }
 
+ .squadSelectSearchItem {
+     margin-right: 10px;
+ }
+
+ @media only screen and (max-width: 991px) {
+     .nav-item {
+        width: fit-content !important;
+     }
+ }
