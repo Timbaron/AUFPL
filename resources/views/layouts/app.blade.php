@@ -18,11 +18,18 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    @include('sweetalert::alert')
 </head>
 
 <body class="antialiased">
     <div class="container contain">
-        <h4 class="header">Welcome to AU-FPL</h4>
+        <h4 class="header mb-1">Welcome to AU-FPL</h4>
+        @if ( Session::has('error'))
+        <h5 style="color:red; text-align:center">{{ session::get('error') }}</h5>
+        @endif
+        @if ( Session::has('success'))
+        <h5 style="color:green; text-align:center">{{ session::get('success') }}</h5>
+        @endif
         <div class="menu mt-4">
             <ul class="nav justify-content-center">
                 <li class="nav-item">
@@ -36,7 +43,7 @@
                     <a class="nav-link" href="{{route('squad.select')}}">select squad</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Transfer</a>
+                    <a class="nav-link" href="{{route('transfer')}}">Transfer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" onClick="logout()">Logout</a>
@@ -62,7 +69,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
-        function logout(){
+        function logout() {
             document.getElementById('logout').submit();
         }
     </script>

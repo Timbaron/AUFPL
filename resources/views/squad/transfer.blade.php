@@ -3,7 +3,13 @@
 @section('title', 'Select Squad')
 
 @section('content')
-<p class="squadSelectInfo">You can select maximum on 3 players from a Team</p>
+<p class="squadSelectInfo">You can select maximum on 3 players from a Team
+    <a href="{{route('cart')}}">
+        <button type="button" class="btn btn-primary">
+            Cart <span class="badge badge-light">{{$cart}}</span>
+        </button>
+    </a>
+</p>
 <p class="squadSelectInfo">Transfer Balance: ${{auth()->user()->balance}}</p>
 
 <div class="squadSelectSearch">
@@ -39,7 +45,14 @@
                 <td>{{$player->club->name}}</td>
                 <td>{{$player->position}}</td>
                 <td>${{$player->price}}</td>
-                <td><button class="btn">Add</button></td>
+                <form action="{{route('cart.add')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="player_id" value="{{$player->player_id}}">
+                    <input type="hidden" name="player_price" value="{{$player->price}}">
+                    <input type="hidden" name="player_position" value="{{$player->position}}">
+                    <input type="hidden" name="player_club" value="{{$player->club->name}}">
+                    <td><button class="btn" type="submit">Add</button></td>
+                </form>
             </tr>
             @endforeach
         </tbody>
@@ -47,10 +60,5 @@
     {{$players->links()}}
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#playersTable').DataTable();
-    });
-</script>
 
 @endsection
