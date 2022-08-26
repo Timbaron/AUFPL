@@ -16,7 +16,7 @@ class CartController extends Controller
     public function cardAdd(Request $request){
         $cartItems = Cart::whereUser_id(auth()->user()->id)->get()->toArray();
     // Check if players are less than 15
-        if(count($cartItems) >= 15){
+        if(count($cartItems) == 15){
             return redirect()->back()->with('error', 'You have reached the maximum amount of players!!');
         }
     // check if user can afford
