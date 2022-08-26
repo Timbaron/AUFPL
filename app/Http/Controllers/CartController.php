@@ -6,33 +6,36 @@ use App\Models\Cart;
 use App\Models\Player;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function cart(){
+    public function cart()
+    {
         $cartItems = Cart::whereUser_id(auth()->user()->id)->get();
-        return $cartItems;
+        return view('cart', compact('cartItems'));
     }
-    public function cardAdd(Request $request){
+    public function cardAdd(Request $request)
+    {
         $cartItems = Cart::whereUser_id(auth()->user()->id)->get()->toArray();
-    // Check if players are less than 15
-        if(count($cartItems) == 15){
+        // Check if players are less than 15
+        if (count($cartItems) == 15) {
             return redirect()->back()->with('error', 'You have reached the maximum amount of players!!');
         }
-    // check if user can afford
-        if(auth()->user()->balance < $request->player_price){
-            return redirect()->back()->with('error','You can not afford this player');
+        // check if user can afford
+        if (auth()->user()->balance < $request->player_price) {
+            return redirect()->back()->with('error', 'You can not afford this player');
         }
-    // check if player already exist
+        // check if player already exist
         $playerexist = Cart::whereUser_id(auth()->user()->id)->wherePlayer_id($request->player_id)->first();
-        if($playerexist){
+        if ($playerexist) {
             return redirect()->back()->with('error', 'You already have this player');
         }
-    // Check Player positions
+        // Check Player positions
         $positionexist = Cart::whereUser_id(auth()->user()->id)->wherePlayer_position($request->player_position)->get()->toArray();
-        if($request->player_position == 'GK'){
+        if ($request->player_position == 'GK') {
             // return count($positionexist);
-            if(count($positionexist) == 2){
+            if (count($positionexist) == 2) {
                 return redirect()->back()->with('error', "You can't have more than 2 Goalkeepers!!");
             }
         }
@@ -51,9 +54,9 @@ class CartController extends Controller
                 return redirect()->back()->with('error', "You can't have more than 3 Forward!!");
             }
         }
-    // Check player clubs
+        // Check player clubs
         $clubexist = Cart::whereUser_id(auth()->user()->id)->wherePlayer_club($request->player_club)->get()->toArray();
-        if(count($clubexist) == 3){
+        if (count($clubexist) == 3) {
             return redirect()->back()->with('error', "You can't select more that 3 players from a club!!");
         }
         // $player = Player::with('club')->wherePlayer_id($request->player_id)->first();
@@ -71,6 +74,18 @@ class CartController extends Controller
         $user->save();
 
         Cart::create($data);
-        return redirect()->back()->with('success','Player Added to Cart Successfully!!!');
+        return redirect()->back()->with('success', 'Player Added to Cart Successfully!!!');
+    }
+
+    public function cardRemove(Request $request){
+        $cart = Cart::whereId($request->cart_id)->first();
+        $price = $cart->player_price;
+        if($cart->delete()){
+            $user = User::whereId(Auth::user()->id)->first();
+            $user->balance = $user->balance + $price;
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Player has been removed from Cart Successfully!!!');
     }
 }

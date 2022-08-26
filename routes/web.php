@@ -30,7 +30,8 @@ Route::middleware(['auth'])
             Route::get('/transfer', [SquadController::class, 'transfer'])->name('transfer');
             Route::get('/select-squad', [SquadController::class, 'select'])->name('squad.select');
             Route::post('cart/add', [CartController::class, 'cardAdd'])->name('cart.add');
-            Route::get('/cart',[CartController::class, 'cart'])->name('cart');
+            Route::post('cart/remove', [CartController::class, 'cardRemove'])->name('cart.remove');
+            Route::get('/cart', [CartController::class, 'cart'])->name('cart');
         }
     );
 

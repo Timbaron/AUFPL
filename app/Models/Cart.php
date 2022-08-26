@@ -16,4 +16,5 @@ class Cart extends Model
         'player_club',
         'player_position'
     ];
+
 }
