@@ -11,7 +11,7 @@
     </a>
 </p>
 <p class="squadSelectInfo">Transfer Balance: ${{auth()->user()->balance}}</p>
-<form>
+<form method="post" action="{{route('player.search')}}">
     @csrf
     <div class="squadSelectSearch">
         <div class="squadSelectSearchItem">

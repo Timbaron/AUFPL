@@ -32,5 +32,13 @@
             @endforeach
         </tbody>
     </table>
+    <div style="display:flex; align-items:center; justify-content:center" class="mb-2">
+    @if(count($cartItems) > 0)
+    <form action="{{route('transfer.complete')}}" method="post">
+        @csrf
+        <button class="btn" type="submit">Complete Transfer</button>
+    </form>
+    @endif
+    </div>
 </div>
 @endsection
