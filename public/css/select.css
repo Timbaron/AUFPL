@@ -1,0 +1,27 @@
+.main {
+    width: auto;
+    height: auto;
+    background-color: white;
+    border-radius: 9px
+
+}
+
+.players {
+    width: 50%;
+    height: 100%;
+    background-color: pink
+}
+
+.starters {
+    width: 50%;
+    height: 100%;
+    background-color: violet
+}
+
+.player{
+    width: 50px !important;
+    height: auto;
+    background-color: grey;
+    position: relative;
+
+}
