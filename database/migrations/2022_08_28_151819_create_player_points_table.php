@@ -16,16 +16,19 @@ return new class extends Migration
         Schema::create('player_points', function (Blueprint $table) {
             $table->id();
             $table->string('player_id');
-            $table->string('gameweek');
+            $table->integer('gameweek')->nullable();
             $table->integer('minutes')->default(0);
-            $table->string('yellow_card');
-            $table->string('red_card');
-            $table->string('motm');
-            $table->string('goal');
-            $table->string('assist');
-            $table->string('cleansheet');
-            $table->string('own_goal');
-            $table->string('penalty_missed');
+            $table->boolean('yellow_card');
+            $table->boolean('red_card');
+            $table->boolean('motm');
+            $table->integer('goal');
+            $table->integer('assist');
+            $table->boolean('cleansheet');
+            $table->integer('own_goal');
+            $table->integer('penalty_missed');
+            $table->integer('penalty_saved');
+            $table->integer('saves');
+            $table->integer('goals_conceded');
             $table->timestamps();
         });
     }

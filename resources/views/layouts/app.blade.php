@@ -38,7 +38,7 @@
                 </li>
                 @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Points</a>
+                    <a class="nav-link" href="{{route('points')}}">Points</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('squad.select')}}">select squad</a>

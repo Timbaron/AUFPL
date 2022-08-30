@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\PlayerPointController;
 use App\Http\Controllers\SquadController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,7 @@ Route::middleware(['auth'])
             Route::get('/cart', [CartController::class, 'cart'])->name('cart');
             Route::post('player/search', [PlayerController::class, 'search'])->name('player.search');
             Route::post('tranfer/complete', [TeamController::class, 'create'])->name('transfer.complete');
+            Route::get('points', [PlayerPointController::class, 'index'])->name('points');
         }
     );
 

@@ -4,7 +4,7 @@
  }
 
  html * {
-     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+     font-family: 'Times New Roman', Times, serif;
      letter-spacing: 2px;
  }
 
@@ -12,6 +12,7 @@
      margin: 100px 50px 100px 50px;
      border-radius: 3%;
      height: auto;
+     width: fit-content !important;
      padding: 10px;
      background-color: black
  }

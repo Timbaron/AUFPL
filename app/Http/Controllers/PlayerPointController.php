@@ -2,9 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Player;
+use App\Models\Selection;
 use Illuminate\Http\Request;
 
 class PlayerPointController extends Controller
 {
-    //
+    public function index()
+    {
+        $selection = Selection::whereUser_id(auth()->user()->id)->first();
+        $starters_id = json_decode($selection->starters);
+        $subs_id = json_decode($selection->subs);
+
+        $starters = [];
+        $subs = [];
+        foreach ($starters_id as $starts) {
+            $player = Player::wherePlayer_id($starts)->first();
+            array_push($starters, $player);
+        }
+        foreach ($subs_id as $sub) {
+            $player = Player::wherePlayer_id($sub)->first();
+            array_push($subs, $player);
+        }
+        // return $starters;
+        $starters = collect($starters);
+        $subs = collect($subs);
+        // sort player by position from starters
+        $goalkeepers = $starters->filter(function ($value, $Key) {
+            return $value->position == 'GK';
+        });
+        $defenders = $starters->filter(function ($value, $Key) {
+            return $value->position == 'DF';
+        });
+        $midfielders = $starters->filter(function ($value, $Key) {
+            return $value->position == 'MF';
+        });
+        $forwards = $starters->filter(function ($value, $Key) {
+            return $value->position == 'FW';
+        });
+        // sort player by position from subs
+        $goalkeepers_sub = $subs->filter(function ($value, $Key) {
+            return $value->position == 'GK';
+        });
+        $defender_sub = $subs->filter(function ($value, $Key) {
+            return $value->position == 'DF';
+        });
+        $midfielder_sub = $subs->filter(function ($value, $Key) {
+            return $value->position == 'MF';
+        });
+        $forward_sub = $subs->filter(function ($value, $Key) {
+            return $value->position == 'FW';
+        });
+        $data = [
+            'goalkeeper' => $goalkeepers[0],
+            'defenders' => $defenders,
+            'midfielders' => $midfielders,
+            'forwards' => $forwards,
+        ];
+        $bench = [
+            $goalkeepers_sub,
+            $defender_sub,
+            $midfielder_sub,
+            $forward_sub,
+        ];
+        return view('squad/points', compact('data', 'bench', 'selection'));
+    }
 }
