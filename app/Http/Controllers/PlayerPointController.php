@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AufplSettings;
 use App\Models\Club;
 use App\Models\Player;
 use App\Models\PlayerPoint;
@@ -12,7 +13,8 @@ class PlayerPointController extends Controller
 {
     public function index()
     {
-        $selection = Selection::whereUser_id(auth()->user()->id)->first();
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $selection = Selection::whereUser_id(auth()->user()->id)->whereGameweek($current_gameweek)->first();
         if ($selection == null) {
             // rediterect to /transfer
             return redirect()->route('transfer')->with('error', 'You have not made any selections yet');

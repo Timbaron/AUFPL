@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AufplSettings;
 use App\Models\Cart;
 use App\Models\Club;
 use App\Models\Player;
@@ -69,7 +70,9 @@ class SquadController extends Controller
 
         $bench_players = array_merge($bench_goalkeeper, $bench_defenders, $bench_midfielders, $bench_forwards);
         $starting_players = array_merge($starting_goalkeeper, $starting_defenders, $starting_midfielders, $starting_forwards);
+        $current_gameweek = AufplSettings::first()->current_gameweek;
         $data = [
+            'gameweek' => $current_gameweek,
             'user_id' => auth()->user()->id,
             'starters' => json_encode($starting_players),
             'subs' => json_encode($bench_players),
@@ -79,7 +82,7 @@ class SquadController extends Controller
             'triple_captain' => $request->triple_captain,
         ];
         // save selected configuration
-        Selection::updateOrCreate(['user_id' => auth()->user()->id],$data);
+        Selection::updateOrCreate(['user_id' => auth()->user()->id, 'gameweek' => $current_gameweek],$data);
         return redirect()->back()->with('success', 'Selection Saved Successfully!!');
     }
 

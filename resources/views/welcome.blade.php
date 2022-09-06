@@ -10,12 +10,22 @@
         <a class="btn btn-secondary btn-lg" href="/select-squad" role="button">My Squad</a>
         @auth
         @if(auth()->user()->is_admin)
-        <a class="btn btn-secondary btn-lg" href="{{route('admin.players.points')}}" role="button">Players Point</a>
-        <a class="btn btn-secondary btn-lg" href="{{route('admin.players.all')}}" role="button">Players</a>
-        <a class="btn btn-secondary btn-lg" href="{{route('admin.clubs.all')}}" role="button">Clubs</a>
-        <a class="btn btn-secondary btn-lg" href="{{route('admin.settings')}}" role="button">Settings</a>
-        @endif
-        @endauth
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.players.points')}}" role="button">Players Point</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.players.all')}}" role="button">Players</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.clubs.all')}}" role="button">Clubs</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.settings')}}" role="button">Settings</a>
+        </div>
+    </div>
+    @endif
+    @endauth
     </p>
 
     <div class="infos">
