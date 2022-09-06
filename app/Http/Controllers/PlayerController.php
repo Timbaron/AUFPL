@@ -79,6 +79,12 @@ class PlayerController extends Controller
         return redirect()->route('admin.players.all')->with('success', 'Player updated successfully');
     }
 
+    public function destroy(Request $request){
+        $player = Player::wherePlayer_id($request->player_id)->firstOrFail();
+        $player->delete();
+        return redirect()->route('admin.players.all')->with('success', 'Player deleted successfully');
+    }
+
     public function index(){
         // Admin view all players
         $players = Player::paginate(10);

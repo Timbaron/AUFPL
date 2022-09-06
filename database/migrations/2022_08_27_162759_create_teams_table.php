@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('owner_id');
             $table->longText('squad');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

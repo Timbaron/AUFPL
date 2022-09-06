@@ -42,13 +42,13 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Own Goals</label>
-                                                    <input type="number" class="form-control" value="{{$points['own_goal'] ?? 0}}" name="own_goal" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Own Goals" min="0">
+                                                    <input type="number" class="form-control" value="{{$points['own_goal'] ?? 0}}" name="own_goal" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Own Goals" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Minutes Played</label>
-                                                    <input type="number" class="form-control" value="{{$points['minutes'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="minutes" min="0">
+                                                    <input type="number" class="form-control" value="{{$points['minutes'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="minutes" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -75,13 +75,13 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Goals</label>
-                                                    <input type="number" class="form-control" value="{{$points['goals'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Goals" name="goal" min="0">
+                                                    <input type="number" class="form-control" value="{{$points['goals'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Goals" name="goal" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Assist</label>
-                                                    <input type="number" class="form-control" value="{{$points['assist'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Assists" name="assist" min="0">
+                                                    <input type="number" class="form-control" value="{{$points['assist'] ?? 0}}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Number of Assists" name="assist" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -107,25 +107,25 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Penalty Missed</label>
-                                                    <input type="number" class="form-control" value="{{$points['penalty_missed'] ?? 0}}" name="penalty_missed" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty missed" min="0">
+                                                    <input type="number" class="form-control" value="{{$points['penalty_missed'] ?? 0}}" name="penalty_missed" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty missed" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Penalty Saved</label>
-                                                    <input type="number" name="penalty_saved" value="{{$points['penalty_saved'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty saved" min="0">
+                                                    <input type="number" name="penalty_saved" value="{{$points['penalty_saved'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty saved" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Saves</label>
-                                                    <input type="number" name="saves" value="{{$points['saves'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total saves" min="0">
+                                                    <input type="number" name="saves" value="{{$points['saves'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total saves" min="0" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Goals Conceded</label>
-                                                    <input type="number" name="goals_conceded" value="{{$points['goals_conceded'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total goals conceded" min="0">
+                                                    <input type="number" name="goals_conceded" value="{{$points['goals_conceded'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total goals conceded" min="0" required>
                                                 </div>
                                             </div>
                                         </div>

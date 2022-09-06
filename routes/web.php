@@ -47,7 +47,7 @@ Route::middleware(['auth'])
             Route::post('admin/players/store', [PlayerController::class, 'store'])->name('admin.players.store');
             Route::get('admin/players/edit/{id}', [PlayerController::class, 'edit'])->name('admin.players.edit');
             Route::put('admin/players/update/{id}', [PlayerController::class, 'update'])->name('admin.players.update');
-            Route::post('admin/players/delete/{id}', [PlayerController::class, 'destroy'])->name('admin.players.delete');
+            Route::delete('admin/players/delete', [PlayerController::class, 'destroy'])->name('admin.players.delete');
         }
     );
 

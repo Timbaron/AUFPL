@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price',8,1);
             $table->string('club_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

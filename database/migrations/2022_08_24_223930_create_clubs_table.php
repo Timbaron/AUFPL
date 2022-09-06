@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('owner');
             $table->string('manager');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

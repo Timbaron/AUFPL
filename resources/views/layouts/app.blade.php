@@ -19,7 +19,7 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
-    @include('sweetalert::alert')
+
 </head>
 
 <body class="antialiased">

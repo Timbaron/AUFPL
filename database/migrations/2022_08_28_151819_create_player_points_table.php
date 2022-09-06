@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('penalty_saved');
             $table->integer('saves');
             $table->integer('goals_conceded');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

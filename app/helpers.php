@@ -8,7 +8,7 @@ if (!function_exists('getPlayerNameById')) {
 
     function getPlayerNameById($playerId)
     {
-        $player = Player::wherePlayer_id($playerId)->first();
+        $player = Player::withTrashed()->wherePlayer_id($playerId)->first();
         return $player->name;
     }
 }
@@ -22,7 +22,7 @@ if(!function_exists('getTotalPoints')){
         $starters_point = 0;
         $bench_points = 0;
         foreach($starters as $start){
-            $player = Player::wherePlayer_id($start)->first();
+            $player = Player::withTrashed()->wherePlayer_id($start)->first();
             // return $player->position;
             $points = getPlayerPoints($start, strtolower($player->position), $selection);
             $starters_point += $points;

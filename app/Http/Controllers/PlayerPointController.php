@@ -13,17 +13,21 @@ class PlayerPointController extends Controller
     public function index()
     {
         $selection = Selection::whereUser_id(auth()->user()->id)->first();
+        if ($selection == null) {
+            // rediterect to /transfer
+            return redirect()->route('transfer')->with('error', 'You have not made any selections yet');
+        }
         $starters_id = json_decode($selection->starters);
         $subs_id = json_decode($selection->subs);
 
         $starters = [];
         $subs = [];
         foreach ($starters_id as $starts) {
-            $player = Player::wherePlayer_id($starts)->first();
+            $player = Player::withTrashed()->wherePlayer_id($starts)->first();
             array_push($starters, $player);
         }
         foreach ($subs_id as $sub) {
-            $player = Player::wherePlayer_id($sub)->first();
+            $player = Player::withTrashed()->wherePlayer_id($sub)->first();
             array_push($subs, $player);
         }
         // return $starters;

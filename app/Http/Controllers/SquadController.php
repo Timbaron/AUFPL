@@ -19,6 +19,10 @@ class SquadController extends Controller
 
     public function select(){
         $team  = Team::whereOwner_id(auth()->user()->id)->first();
+        if($team == null){
+            // rediterect to /transfer
+            return redirect()->route('transfer')->with('error', 'You have not created a team yet');
+        }
         $players = collect(json_decode($team->squad));
 
         $goalkeepers = $players->filter(function ($value, $Key) {
