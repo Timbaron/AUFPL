@@ -7,8 +7,15 @@
     <h1 class="display-8">Gameweek 1</h1>
 
     <p class="lead">
-        <a class="btn btn-secondary btn-lg" href="#" role="button">My Squad</a>
+        <a class="btn btn-secondary btn-lg" href="/select-squad" role="button">My Squad</a>
+        @auth
+        @if(auth()->user()->is_admin)
+        <a class="btn btn-secondary btn-lg" href="{{route('admin.players.points')}}" role="button">Players Point</a>
+        <a class="btn btn-secondary btn-lg" href="{{route('admin.players.all')}}" role="button">Players</a>
+        @endif
+        @endauth
     </p>
+
     <div class="infos">
         <div class="info">
             Highest Points: 232

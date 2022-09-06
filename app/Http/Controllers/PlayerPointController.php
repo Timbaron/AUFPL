@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
 use App\Models\Player;
+use App\Models\PlayerPoint;
 use App\Models\Selection;
 use Illuminate\Http\Request;
 
@@ -66,5 +68,24 @@ class PlayerPointController extends Controller
             $forward_sub,
         ];
         return view('squad/points', compact('data', 'bench', 'selection'));
+    }
+
+    public function edit()
+    {
+        $clubs = Club::with('players')->withCount('players')->get();
+        return view('admin/players/index', compact('clubs'));
+    }
+
+    public function update(Request $request){
+        $player = Player::wherePlayer_id($request->player_id)->first();
+        unset($request['_token']);
+        $playerpoint = PlayerPoint::wherePlayer_id($request->player_id)->first();
+        $update = $playerpoint->update($request->all());
+        if($update){
+            return redirect()->back()->with('success', 'Player point updated');
+        }
+        else {
+            return redirect()->back()->with('error', 'Player point not updated' . '(', $player->name . ')');
+        }
     }
 }

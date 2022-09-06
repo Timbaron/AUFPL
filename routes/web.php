@@ -39,6 +39,15 @@ Route::middleware(['auth'])
             Route::post('player/search', [PlayerController::class, 'search'])->name('player.search');
             Route::post('tranfer/complete', [TeamController::class, 'create'])->name('transfer.complete');
             Route::get('points', [PlayerPointController::class, 'index'])->name('points');
+
+            Route::get('admin/players/points', [PlayerPointController::class, 'edit'])->name('admin.players.points');
+            Route::post('admin/players/points/update', [PlayerPointController::class, 'update'])->name('admin.players.update.points');
+            Route::get('admin/players/all', [PlayerController::class, 'index'])->name('admin.players.all');
+            Route::get('admin/players/add', [PlayerController::class, 'add'])->name('admin.players.add');
+            Route::post('admin/players/store', [PlayerController::class, 'store'])->name('admin.players.store');
+            Route::get('admin/players/edit/{id}', [PlayerController::class, 'edit'])->name('admin.players.edit');
+            Route::put('admin/players/update/{id}', [PlayerController::class, 'update'])->name('admin.players.update');
+            Route::post('admin/players/delete/{id}', [PlayerController::class, 'destroy'])->name('admin.players.delete');
         }
     );
 

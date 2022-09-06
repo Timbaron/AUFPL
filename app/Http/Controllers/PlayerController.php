@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Is_admin;
 use App\Models\Cart;
 use App\Models\Club;
 use App\Models\Player;
@@ -9,6 +10,11 @@ use Illuminate\Http\Request;
 
 class PlayerController extends Controller
 {
+    // only users where is_admin is true can access this controller
+    public function __construct()
+    {
+        $this->middleware(Is_admin::class)->except('search');
+    }
     public function search(Request $request)
     {
         if ($request->search_by == null || $request->search_by == 'name') {
@@ -36,5 +42,46 @@ class PlayerController extends Controller
 
         return view('squad/transfer', compact('players', 'cart'));
 
+    }
+
+    public function add(){
+        $clubs = Club::all();
+        return view('admin/players/add', compact('clubs'));
+    }
+
+    public function store(Request $request){
+        $data = $request->validate([
+            'name' => 'required',
+            'club_id' => 'required',
+            'position' => 'required',
+            'price' => 'required',
+        ]);
+        $data['player_id'] = uniqid('AUFPL-');
+        Player::create($data);
+        return redirect()->route('admin.players.all')->with('success', 'Player added successfully');
+    }
+
+    public function edit($id){
+        $player = Player::wherePlayer_id($id)->firstOrFail();
+        $clubs = Club::all();
+        return view('admin/players/edit', compact('player', 'clubs'));
+    }
+
+    public function update(Request $request, $id){
+        $player = Player::wherePlayer_id($id)->firstOrFail();
+        $data = $request->validate([
+            'name' => 'required',
+            'club_id' => 'required',
+            'position' => 'required',
+            'price' => 'required',
+        ]);
+        $player->update($data);
+        return redirect()->route('admin.players.all')->with('success', 'Player updated successfully');
+    }
+
+    public function index(){
+        // Admin view all players
+        $players = Player::paginate(10);
+        return view('admin/players/all', compact('players'));
     }
 }

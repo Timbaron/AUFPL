@@ -49,91 +49,123 @@ if (!function_exists('getPlayerPoints')) {
     {
         $total = 0;
         $player_points = PlayerPoint::wherePlayer_id($playerId)->first();
-        if($player_points->minutes >= 60 ){
-            $total += 2;
+        if($player_points == null){
+            return 0;
         }
-        else{
-            $total += 1;
-        }
-        if($player_points->yellow_card){
-            $total -=1;
-        }
-        if ($player_points->red_card) {
-            $total -= 2;
-        }
-        if ($player_points->motm) {
-            $total += 2;
-        }
-        if($player_points->penalty_missed){
-            $total -=2;
-        }
-        if ($player_points->own_goal) {
-            $total -= 2;
-        }
-        if($position == 'GK'){
-            for($i=0;$i < $player_points->goals; $i++) {
-                $total += 6;
+        else {
+
+            if($player_points->minutes >= 60 ){
+                $total += 2;
             }
-            for ($i = 0; $i < $player_points->assist; $i++) {
-                $total += 6;
+            else{
+                $total += 1;
             }
-            for ($i = 0; $i < $player_points->goals_conceded; $i+2) {
-                if($i >= 2){
-                    $total -= 1;
+            if($player_points->yellow_card){
+                $total -=1;
+            }
+            if ($player_points->red_card) {
+                $total -= 2;
+            }
+            if ($player_points->motm) {
+                $total += 2;
+            }
+            if($player_points->penalty_missed){
+                $total -=2;
+            }
+            if ($player_points->own_goal) {
+                $total -= 2;
+            }
+            if($position == 'GK'){
+                for($i=0;$i < $player_points->goals; $i++) {
+                    $total += 6;
+                }
+                for ($i = 0; $i < $player_points->assist; $i++) {
+                    $total += 6;
+                }
+                for ($i = 0; $i < $player_points->goals_conceded; $i+2) {
+                    if($i >= 2){
+                        $total -= 1;
+                    }
+                }
+                for ($i = 0; $i < $player_points->saves; $i + 3) {
+                    if ($i >= 3) {
+                        $total += 1;
+                    }
+                }
+                if ($player_points->cleansheet) {
+                    $total += 4;
                 }
             }
-            for ($i = 0; $i < $player_points->saves; $i + 3) {
-                if ($i >= 3) {
+            if ($position == 'DF') {
+                for ($i = 0; $i < $player_points->goals; $i++) {
+                    $total += 6;
+                }
+                for ($i = 0; $i < $player_points->assist; $i++) {
+                    $total += 3;
+                }
+                if ($player_points->cleansheet) {
+                    $total += 4;
+                }
+                for ($i = 0; $i < $player_points->goals_conceded; $i + 2) {
+                    if ($i > 2) {
+                        $total -= 1;
+                    }
+                }
+            }
+            if ($position == 'MF') {
+                for ($i = 0; $i < $player_points->goals; $i++) {
+                    $total += 5;
+                }
+                for ($i = 0; $i < $player_points->assist; $i++) {
+                    $total += 3;
+                }
+                if ($player_points->cleansheet) {
                     $total += 1;
                 }
             }
-            if ($player_points->cleansheet) {
-                $total += 4;
-            }
-        }
-        if ($position == 'DF') {
-            for ($i = 0; $i < $player_points->goals; $i++) {
-                $total += 6;
-            }
-            for ($i = 0; $i < $player_points->assist; $i++) {
-                $total += 3;
-            }
-            if ($player_points->cleansheet) {
-                $total += 4;
-            }
-            for ($i = 0; $i < $player_points->goals_conceded; $i + 2) {
-                if ($i > 2) {
-                    $total -= 1;
+            if ($position == 'FW') {
+                for ($i = 0; $i < $player_points->goals; $i++) {
+                    $total += 4;
+                }
+                for ($i = 0; $i < $player_points->assist; $i++) {
+                    $total += 3;
                 }
             }
+            if($playerId == $selection['captain']){
+                if($selection['triple_captain']){
+                    $total *= 3;
+                }
+                else {
+                    $total *=2;
+                }
+            }
+            return $total;
         }
-        if ($position == 'MF') {
-            for ($i = 0; $i < $player_points->goals; $i++) {
-                $total += 5;
-            }
-            for ($i = 0; $i < $player_points->assist; $i++) {
-                $total += 3;
-            }
-            if ($player_points->cleansheet) {
-                $total += 1;
-            }
+    }
+}
+
+if (!function_exists('getFullPlayerPoints')) {
+
+    function getFullPlayerPoints($playerId)
+    {
+        $points = PlayerPoint::wherePlayer_id($playerId)->first();
+        if(is_null($points)){
+            return 0;
         }
-        if ($position == 'FW') {
-            for ($i = 0; $i < $player_points->goals; $i++) {
-                $total += 4;
-            }
-            for ($i = 0; $i < $player_points->assist; $i++) {
-                $total += 3;
-            }
-        }
-        if($playerId == $selection['captain']){
-            if($selection['triple_captain']){
-                $total *= 3;
-            }
-            else {
-                $total *=2;
-            }
-        }
-        return $total;
+        // return points data one by one
+        return [
+            'goals' => $points->goal,
+            'assist' => $points->assist,
+            'minutes' => $points->minutes,
+            'yellow_card' => $points->yellow_card,
+            'red_card' => $points->red_card,
+            'motm' => $points->motm,
+            'penalty_missed' => $points->penalty_missed,
+            'penalty_saved' => $points->penalty_saved,
+            'own_goal' => $points->own_goal,
+            'goals_conceded' => $points->goals_conceded,
+            'saves' => $points->saves,
+            'cleansheet' => $points->cleansheet,
+        ];
     }
 }
