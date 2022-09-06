@@ -18,7 +18,8 @@ class Player extends Model
         'price',
         'player_id',
     ];
-
+    public $keyType = 'string';
+    
     public function club(){
         return $this->belongsTo(Club::class, 'club_id');
     }

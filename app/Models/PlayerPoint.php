@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlayerPoint extends Model
 {
     use HasFactory;
-
+    
     protected $fillable =  [
         'player_id',
         'gameweek',
