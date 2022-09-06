@@ -14,16 +14,16 @@ $settings = getSettings();
         @auth
         @if(auth()->user()->is_admin)
     <div class="row">
-        <div class="col">
+        <div class="col mb-2">
             <a class="btn btn-secondary btn-lg" href="{{route('admin.players.points')}}" role="button">Players Point</a>
         </div>
-        <div class="col">
+        <div class="col mb-2">
             <a class="btn btn-secondary btn-lg" href="{{route('admin.players.all')}}" role="button">Players</a>
         </div>
-        <div class="col">
+        <div class="col mb-2">
             <a class="btn btn-secondary btn-lg" href="{{route('admin.clubs.all')}}" role="button">Clubs</a>
         </div>
-        <div class="col">
+        <div class="col mb-2">
             <a class="btn btn-secondary btn-lg" href="{{route('admin.settings')}}" role="button">Settings</a>
         </div>
     </div>
@@ -32,21 +32,30 @@ $settings = getSettings();
     </p>
 
     <div class="infos">
-        <div class="info">
-            Highest Points: {{getHightestPoints()}}
-        </div>
-        <div class="info">
-            Averaged Points: {{getAveragePoints()}}
+        <div class="row">
+            <div class="col mb-2">
+                <div class="info">
+                    Highest Points: {{getHightestPoints()}}
+                </div>
+            </div>
+            <div class="col mb-2">
+                <div class="info">
+                    Averaged Points: {{getAveragePoints()}}
+                </div>
+            </div>
+            <div class="col mb-2">
+                <div class="info">
+                    Most Captained:
+                    {{getMostCaptained()['name']}} <br>
+                    {{ getMostCaptained()['times']}} Time(s)
+                </div>
+            </div>
         </div>
         <!-- <div class="info">
             MOTW:
             Akiode Timothy
         </div> -->
-        <div class="info">
-            Most Captained:
-            {{getMostCaptained()['name']}} <br>
-            {{ getMostCaptained()['times']}} Time(s)
-        </div>
+
     </div>
 </div>
 @endsection
