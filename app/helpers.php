@@ -197,7 +197,12 @@ if (!function_exists('getHightestPoints')) {
             $points = getTotalPoints($selection->id);
             array_push($all_points, $points['starters_point']);
         }
-        return max($all_points);
+        if(empty($all_points)){
+            return 0;
+        }
+        else {
+            return max($all_points);
+        }
     }
 }
 
@@ -213,7 +218,12 @@ if (!function_exists('getAveragePoints')) {
             $points = getTotalPoints($selection->id);
             array_push($all_points, $points['starters_point']);
         }
-        return array_sum($all_points) / count($all_points);
+        if(empty($all_points)){
+            return 0;
+        }
+        else {
+            return array_sum($all_points)/count($all_points);
+        }
     }
 }
 
@@ -227,14 +237,22 @@ if (!function_exists('getMostCaptained')) {
         foreach ($selections as $selection) {
             array_push($captains, $selection->captain);
         }
-        $captain_times = array_count_values($captains);
-        foreach ($captain_times as $key => $captain){
-            if($captain == max($captain_times)){
-                $player = Player::wherePlayer_id($key)->first();
-                return [
-                    'name' => $player->name,
-                    'times' => $captain,
-                ];
+        if(empty($captains)){
+            return [
+                'name' => '',
+                'times' => 0,
+            ];
+        }
+        else {
+            $captain_times = array_count_values($captains);
+            foreach ($captain_times as $key => $captain){
+                if($captain == max($captain_times)){
+                    $player = Player::wherePlayer_id($key)->first();
+                    return [
+                        'name' => $player->name,
+                        'times' => $captain,
+                    ];
+                }
             }
         }
         // return array_sum($all_points) / count($all_points);
