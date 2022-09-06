@@ -184,3 +184,85 @@ if (!function_exists('getSettings')) {
     }
 
 }
+
+if (!function_exists('getHightestPoints')) {
+
+    function getHightestPoints()
+    {
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $selections = Selection::whereGameweek($current_gameweek)->get();
+        // dd($selections);
+        $all_points = [];
+        foreach ($selections as $selection) {
+            $points = getTotalPoints($selection->id);
+            array_push($all_points, $points['starters_point']);
+        }
+        return max($all_points);
+    }
+}
+
+if (!function_exists('getAveragePoints')) {
+
+    function getAveragePoints()
+    {
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $selections = Selection::whereGameweek($current_gameweek)->get();
+        // dd($selections);
+        $all_points = [];
+        foreach ($selections as $selection) {
+            $points = getTotalPoints($selection->id);
+            array_push($all_points, $points['starters_point']);
+        }
+        return array_sum($all_points) / count($all_points);
+    }
+}
+
+if (!function_exists('getMostCaptained')) {
+
+    function getMostCaptained()
+    {
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $selections = Selection::whereGameweek($current_gameweek)->get();
+        $captains = [];
+        foreach ($selections as $selection) {
+            array_push($captains, $selection->captain);
+        }
+        $captain_times = array_count_values($captains);
+        foreach ($captain_times as $key => $captain){
+            if($captain == max($captain_times)){
+                $player = Player::wherePlayer_id($key)->first();
+                return [
+                    'name' => $player->name,
+                    'times' => $captain,
+                ];
+            }
+        }
+        // return array_sum($all_points) / count($all_points);
+    }
+}
+
+if (!function_exists('getManagerOfTheWeek')) {
+
+    function getManagerOfTheWeek()
+    {
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $selections = Selection::whereGameweek($current_gameweek)->get();
+        $all_points = [];
+        foreach ($selections as $selection) {
+            $points = getTotalPoints($selection->id);
+            array_push($all_points, $points['starters_point']);
+        }
+        $points = array_count_values($all_points);
+        foreach ($points as $key => $captain) {
+
+            if ($captain == max($points)) {
+                $player = Player::wherePlayer_id($key)->first();
+                return [
+                    'name' => $player->name,
+                    'times' => $captain,
+                ];
+            }
+        }
+        // return array_sum($all_points) / count($all_points);
+    }
+}

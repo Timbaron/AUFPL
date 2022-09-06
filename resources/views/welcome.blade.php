@@ -33,18 +33,19 @@ $settings = getSettings();
 
     <div class="infos">
         <div class="info">
-            Highest Points: 232
+            Highest Points: {{getHightestPoints()}}
         </div>
         <div class="info">
-            Averaged Points: 32
+            Averaged Points: {{getAveragePoints()}}
         </div>
-        <div class="info">
+        <!-- <div class="info">
             MOTW:
             Akiode Timothy
-        </div>
+        </div> -->
         <div class="info">
             Most Captained:
-            Donkeeng
+            {{getMostCaptained()['name']}} <br>
+            {{ getMostCaptained()['times']}} Time(s)
         </div>
     </div>
 </div>
