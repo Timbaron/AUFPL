@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AufplSettings;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\Selection;
@@ -168,4 +169,18 @@ if (!function_exists('getFullPlayerPoints')) {
             'cleansheet' => $points->cleansheet,
         ];
     }
+}
+
+if (!function_exists('getSettings')) {
+
+    function getSettings()
+    {
+        $settings = AufplSettings::first();
+        return [
+            'current_gameweek' => $settings->current_gameweek,
+            'transfer_window_open' => $settings->transfer_window_open,
+            'squad_selection_open' => $settings->squad_selection_open,
+        ];
+    }
+
 }

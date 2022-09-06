@@ -3,6 +3,9 @@
 @section('title', 'Select Squad')
 
 @section('content')
+<?php
+$settings = getSettings();
+?>
 <p class="squadSelectInfo">You can select maximum on 3 players from a Team
     <a href="{{route('cart')}}">
         <button type="button" class="btn btn-primary">
@@ -47,6 +50,7 @@
                 <td>{{$player->club->name}}</td>
                 <td>{{$player->position}}</td>
                 <td>${{$player->price}}</td>
+                @if($settings['transfer_window_open'])
                 <form action="{{route('cart.add')}}" method="post">
                     @csrf
                     <input type="hidden" name="player_id" value="{{$player->player_id}}">
@@ -55,6 +59,9 @@
                     <input type="hidden" name="player_club" value="{{$player->club->name}}">
                     <td><button class="btn" type="submit">Add</button></td>
                 </form>
+                @else
+                <td><button class="btn disabled" type="submit">Add</button></td>
+                @endif
             </tr>
             @endforeach
         </tbody>

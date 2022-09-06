@@ -23,6 +23,9 @@
 </head>
 
 <body class="antialiased">
+    <?php
+    $settings = getSettings();
+    ?>
     <div class="container contain">
         <h4 class="header mb-1">Welcome to AU-FPL</h4>
         @if ( Session::has('error'))
@@ -41,10 +44,18 @@
                     <a class="nav-link" href="{{route('points')}}">Points</a>
                 </li>
                 <li class="nav-item">
+                    @if($settings['squad_selection_open'])
                     <a class="nav-link" href="{{route('squad.select')}}">select squad</a>
+                    @else
+                    <a class="btn disabled" href="{{route('squad.select')}}" disabled>select squad (closed)</a>
+                    @endif
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('transfer')}}">Transfer</a>
+                    @if($settings['transfer_window_open'])
+                    <a class="nav-link" href="{{route('transfer')}}">transfer</a>
+                    @else
+                    <a class="btn disabled" href="{{route('transfer')}}" disabled>transfer (closed)</a>
+                    @endif
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" onClick="logout()">Logout</a>

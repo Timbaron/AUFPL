@@ -3,6 +3,10 @@
 @section('title', 'Select Squad')
 
 @section('content')
+<?php
+$settings = getSettings();
+?>
+@if($settings['squad_selection_open'])
 <div class="main mt-3">
     <form action="{{route('select.confirm')}}" method="post">
         @csrf
@@ -135,5 +139,15 @@
         </div>
     </form>
 </div>
+@else
+<div class="container">
+    <div class="row justify-content-center m-3">
+        <h1>Team Selection</h1>
+    </div>
+    <div class="row justify-content-center m-3">
+        <h3>Team Selection is CLOSED</h3>
+    </div>
+</div>
+@endif
 
 @endsection
