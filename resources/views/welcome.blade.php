@@ -10,7 +10,7 @@ $settings = getSettings();
     <h1 class="display-8">Gameweek {{$settings['current_gameweek']}}</h1>
 
     <p class="lead">
-        <a class="btn btn-secondary btn-lg" href="/select-squad" role="button">My Squad</a>
+        <a class="btn btn-secondary btn-lg" href="/my-players" role="button">My Players</a>
         @auth
         @if(auth()->user()->is_admin)
     <div class="row">

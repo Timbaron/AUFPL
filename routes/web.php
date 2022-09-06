@@ -41,6 +41,8 @@ Route::middleware(['auth'])
             Route::post('player/search', [PlayerController::class, 'search'])->name('player.search');
             Route::post('tranfer/complete', [TeamController::class, 'create'])->name('transfer.complete');
             Route::get('points', [PlayerPointController::class, 'index'])->name('points');
+            Route::get('my-players', [PlayerController::class, 'myPlayers'])->name('my.players');
+            Route::post('my-players/sell', [PlayerController::class, 'sellplayer'])->name('my.player.sell');
 
             Route::get('admin/players/points', [PlayerPointController::class, 'edit'])->name('admin.players.points');
             Route::post('admin/players/points/update', [PlayerPointController::class, 'update'])->name('admin.players.update.points');

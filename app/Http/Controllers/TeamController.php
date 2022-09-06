@@ -16,7 +16,6 @@ class TeamController extends Controller
         // return $players;
         if($team){
             $transferCheck = $this->transferCheck($players, $team);
-            // return $transferCheck;
             if($transferCheck['status']){
                 return redirect()->back()->with('error',$transferCheck['message']);
             }
@@ -30,7 +29,7 @@ class TeamController extends Controller
             'owner_id' => auth()->user()->id,
             'squad' => $player_to_json
         ];
-        Team::create($data);
+        Team::updateOrCreate(['owner_id'=>auth()->user()->id],$data);
         $players->each->delete();
         return redirect()->back()->with('success', 'Team created successfully!!!');
     }

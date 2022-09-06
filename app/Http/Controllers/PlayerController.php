@@ -6,6 +6,8 @@ use App\Http\Middleware\Is_admin;
 use App\Models\Cart;
 use App\Models\Club;
 use App\Models\Player;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -13,7 +15,7 @@ class PlayerController extends Controller
     // only users where is_admin is true can access this controller
     public function __construct()
     {
-        $this->middleware(Is_admin::class)->except('search');
+        $this->middleware(Is_admin::class)->except('search', 'myPlayers');
     }
     public function search(Request $request)
     {
@@ -42,6 +44,35 @@ class PlayerController extends Controller
 
         return view('squad/transfer', compact('players', 'cart'));
 
+    }
+
+    public function myPlayers()
+    {
+       $team = Team::whereOwner_id(auth()->user()->id)->first();
+       $players = json_decode($team->squad);
+        return view('squad/myplayers', compact('players'));
+    }
+
+    public function sellplayer(Request $request){
+        $team = Team::whereOwner_id(auth()->user()->id)->first();
+        $players = json_decode($team->squad);
+        $player_to_sell = [];
+        $count = 0;
+        foreach($players as $player){
+            $count +=1;
+            if($player->player_id == $request->player_id){
+                $player_to_sell = $player;
+                unset($players[$count-1]);
+            }
+        }
+        $team->squad = json_encode(array_values($players));
+        $team->save();
+        // update user balance
+        $user = User::find(auth()->user()->id);
+        $user->balance = $user->balance + $player_to_sell->player_price;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Player sold successfully');
     }
 
     public function add(){
