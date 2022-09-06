@@ -3,8 +3,11 @@
 @section('title', 'Anchor University Premier League')
 
 @section('content')
+<?php
+$settings = getSettings();
+?>
 <div class="jumbotron mt-3 jumbo">
-    <h1 class="display-8">Gameweek 1</h1>
+    <h1 class="display-8">Gameweek {{$settings['current_gameweek']}}</h1>
 
     <p class="lead">
         <a class="btn btn-secondary btn-lg" href="/select-squad" role="button">My Squad</a>
