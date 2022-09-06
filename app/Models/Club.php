@@ -11,6 +11,12 @@ class Club extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'owner',
+        'manager',
+    ];
+    
     public function players(){
         return $this->hasMany(Player::class,'club_id');
     }

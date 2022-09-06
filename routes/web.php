@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ClubController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerPointController;
 use App\Http\Controllers\SquadController;
@@ -48,6 +49,12 @@ Route::middleware(['auth'])
             Route::get('admin/players/edit/{id}', [PlayerController::class, 'edit'])->name('admin.players.edit');
             Route::put('admin/players/update/{id}', [PlayerController::class, 'update'])->name('admin.players.update');
             Route::delete('admin/players/delete', [PlayerController::class, 'destroy'])->name('admin.players.delete');
+            Route::get('admin/clubs/all', [ClubController::class, 'index'])->name('admin.clubs.all');
+            Route::get('admin/clubs/add', [ClubController::class, 'add'])->name('admin.clubs.add');
+            Route::post('admin/clubs/store', [ClubController::class, 'store'])->name('admin.clubs.store');
+            Route::get('admin/clubs/edit/{id}', [ClubController::class, 'edit'])->name('admin.clubs.edit');
+            Route::put('admin/clubs/update/{id}', [ClubController::class, 'update'])->name('admin.clubs.update');
+            Route::delete('admin/clubs/delete', [ClubController::class, 'destroy'])->name('admin.clubs.delete');
         }
     );
 
