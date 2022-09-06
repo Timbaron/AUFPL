@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AufplSettingsController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\PlayerController;
@@ -55,6 +56,8 @@ Route::middleware(['auth'])
             Route::get('admin/clubs/edit/{id}', [ClubController::class, 'edit'])->name('admin.clubs.edit');
             Route::put('admin/clubs/update/{id}', [ClubController::class, 'update'])->name('admin.clubs.update');
             Route::delete('admin/clubs/delete', [ClubController::class, 'destroy'])->name('admin.clubs.delete');
+            Route::get('admin/settings', [AufplSettingsController::class, 'index'])->name('admin.settings');
+            Route::post('admin/settings/update', [AufplSettingsController::class, 'update'])->name('admin.settings.update');
         }
     );
 
