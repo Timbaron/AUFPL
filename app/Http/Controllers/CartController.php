@@ -82,11 +82,12 @@ class CartController extends Controller
         $cart = Cart::whereId($request->cart_id)->first();
         $price = $cart->player_price;
         if($cart->delete()){
-            $user = User::whereId(Auth::user()->id)->first();
-            $user->balance = $user->balance + $price;
-            $user->save();
+            // Add user balance
+            $user = User::whereId(auth()->user()->id)->first();
+            $balance = $user->balance + (float)$price;
+            // update user balance using eloquent
+            User::whereId(auth()->user()->id)->update(['balance' => $balance]);
+            return redirect()->back()->with('success', 'Player Removed from Cart Successfully!!!');
         }
-
-        return redirect()->back()->with('success', 'Player has been removed from Cart Successfully!!!');
     }
 }
