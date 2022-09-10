@@ -72,7 +72,7 @@ class CartController extends Controller
         $user = User::whereId(auth()->user()->id)->first();
         $balance = $user->balance - (float)$request->player_price;
         // update user balance using eloquent
-        User::whereId(auth()->user()->id)->update(['balance' => $balance]);
+        User::whereId(auth()->user()->id)->update(['balance' => (float)$balance]);
 
         Cart::create($data);
         return redirect()->back()->with('success', 'Player Added to Cart Successfully!!!');
@@ -86,7 +86,7 @@ class CartController extends Controller
             $user = User::whereId(auth()->user()->id)->first();
             $balance = $user->balance + (float)$price;
             // update user balance using eloquent
-            User::whereId(auth()->user()->id)->update(['balance' => $balance]);
+            User::whereId(auth()->user()->id)->update(['balance' => (float)$balance]);
             return redirect()->back()->with('success', 'Player Removed from Cart Successfully!!!');
         }
     }
