@@ -78,7 +78,7 @@ class PlayerPointController extends Controller
 
     public function edit()
     {
-        $clubs = Club::with('players')->withCount('players')->get();
+        $clubs = Club::with('players')->get();
         return view('admin/players/index', compact('clubs'));
     }
 
