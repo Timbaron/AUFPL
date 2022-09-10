@@ -16,6 +16,7 @@ class Club extends Model
         'owner',
         'manager',
     ];
+    public $keyType = 'string';
 
     public function players(){
         return $this->hasMany(Player::class,'club_id', 'id');
