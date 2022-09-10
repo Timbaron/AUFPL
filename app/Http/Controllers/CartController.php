@@ -70,9 +70,9 @@ class CartController extends Controller
 
         // Deduct user balance
         $user = User::whereId(auth()->user()->id)->first();
-        $user->update([
-            'balance' => $user->balance - $request->player_price,
-        ]);
+        $balance = $user->balance - (float)$request->player_price;
+        // update user balance using eloquent
+        User::whereId(auth()->user()->id)->update(['balance' => $balance]);
 
         Cart::create($data);
         return redirect()->back()->with('success', 'Player Added to Cart Successfully!!!');
