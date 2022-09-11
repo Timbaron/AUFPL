@@ -30,7 +30,7 @@ class HomeController extends Controller
     }
 
     public function users(){
-        $users = User::latest()->get();
+        $users = User::latest()->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
