@@ -41,7 +41,7 @@ Route::middleware(['auth',Is_approved::class])
             Route::post('cart/add', [CartController::class, 'cardAdd'])->name('cart.add');
             Route::post('cart/remove', [CartController::class, 'cardRemove'])->name('cart.remove');
             Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-            Route::post('player/search', [PlayerController::class, 'search'])->name('player.search');
+            Route::get('player/search', [PlayerController::class, 'search'])->name('player.search');
             Route::post('tranfer/complete', [TeamController::class, 'create'])->name('transfer.complete');
             Route::get('points', [PlayerPointController::class, 'index'])->name('points');
             Route::get('my-players', [PlayerController::class, 'myPlayers'])->name('my.players');

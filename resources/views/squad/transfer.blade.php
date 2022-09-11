@@ -14,7 +14,7 @@ $settings = getSettings();
     </a>
 </p>
 <p class="squadSelectInfo">Transfer Balance: ${{auth()->user()->balance}}</p>
-<form>
+<form action="{{route('player.search')}}" method="get">
     @csrf
     <div class="squadSelectSearch">
         <div class="squadSelectSearchItem">
