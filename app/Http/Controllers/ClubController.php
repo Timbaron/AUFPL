@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-    public function __construct(){
-        $this->middleware(Is_admin::class);
-    }
+    // public function __construct(){
+    //     $this->middleware(Is_admin::class);
+    // }
 
     public function index(){
         $clubs = Club::all();

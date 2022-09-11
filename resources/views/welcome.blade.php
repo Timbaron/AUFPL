@@ -26,6 +26,9 @@ $settings = getSettings();
         <div class="col mb-2">
             <a class="btn btn-secondary btn-lg" href="{{route('admin.settings')}}" role="button">Settings</a>
         </div>
+        <div class="col mb-2">
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.users')}}" role="button">Users</a>
+        </div>
     </div>
     @endif
     @endauth
