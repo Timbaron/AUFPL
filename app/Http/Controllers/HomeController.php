@@ -43,6 +43,12 @@ class HomeController extends Controller
     }
 
     public function disapprove(Request $request){
+        // check if user email is vini@gmail.com
+        // if yes, return redirect()->back()->with('error', 'You cannot disapprove this user');
+        $superuser = User::whereId($request->id)->whereEmail('vini@gmail.com')->first();
+        if($superuser){
+            return redirect()->back()->with('error', 'You cannot disapprove this user');
+        }
         $user = User::whereId($request->id)->update(['approved' => 0]);
         if($user){
             return redirect()->back()->with('success', 'User Disapproved');
@@ -59,6 +65,10 @@ class HomeController extends Controller
     }
 
     public function removeAdmin(Request $request){
+        $superuser = User::whereId($request->id)->whereEmail('vini@gmail.com')->first();
+        if($superuser){
+            return redirect()->back()->with('error', 'You cannot remove admin rights from this user');
+        }
         $user = User::whereId($request->id)->update(['is_admin' => 0]);
         if($user){
             return redirect()->back()->with('success', 'User is no longer an Admin');
