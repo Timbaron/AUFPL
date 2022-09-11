@@ -115,7 +115,7 @@ class PlayerController extends Controller
             'position' => 'required',
             'price' => 'required',
         ]);
-        $player->update($data);
+        $player->updateOrCreate($data);
         return redirect()->route('admin.players.all')->with('success', 'Player updated successfully');
     }
 

@@ -83,10 +83,19 @@ class PlayerPointController extends Controller
     }
 
     public function update(Request $request){
-        $player = Player::wherePlayer_id($request->player_id)->first();
         unset($request['_token']);
-        $playerpoint = PlayerPoint::wherePlayer_id($request->player_id)->first();
-        $update = $playerpoint->update($request->all());
+        $player = Player::wherePlayer_id($request->player_id)->first();
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $player_point = PlayerPoint::wherePlayer_id($request->player_id)->whereGameweek($current_gameweek)->first();
+        // dd($request->all());
+        // $playerpoint = PlayerPoint::wherePlayer_id($request->player_id)->first();
+        if($player_point == null){
+            $update = PlayerPoint::wherePlayer_id($request->player_id)->whereGameweek($current_gameweek)->create($request->all());
+        }
+        else{
+            $update = PlayerPoint::wherePlayer_id($request->player_id)->whereGameweek($current_gameweek)->update($request->all());
+        }
+        // $update = $player_point->updateOrCreate($request->all());
         if($update){
             return redirect()->back()->with('success', 'Player point updated');
         }
