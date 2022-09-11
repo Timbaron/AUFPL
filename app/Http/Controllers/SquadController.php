@@ -44,10 +44,13 @@ class SquadController extends Controller
 
     public function confirm_selections(Request $request) {
         // validate only 11 players
-        $starting_goalkeeper = array_filter($request->goalkeeper);
-        $starting_defenders = array_filter($request->defenders);
-        $starting_midfielders = array_filter($request->midfielders);
-        $starting_forwards = array_filter($request->forwards);
+        if(!isset($request->goalkeeper) && !isset($request->defender) && !isset($request->midfielder) && !isset($request->forward)){
+            return redirect()->back()->with('error', 'You have not selected for all positions');
+        }
+        $starting_goalkeeper = array_filter($request->goalkeeper) ?? [];
+        $starting_defenders = array_filter($request->defenders) ?? [];
+        $starting_midfielders = array_filter($request->midfielders) ?? [];
+        $starting_forwards = array_filter($request->forwards) ?? [];
         $totalPlayers = count($starting_defenders) + count($starting_midfielders) + count($starting_forwards) + count($starting_goalkeeper);
         if ($totalPlayers > 11 || $totalPlayers < 11) {
             return redirect()->back()->with('error','You must select 11 players!');
