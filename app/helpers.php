@@ -284,3 +284,18 @@ if (!function_exists('getManagerOfTheWeek')) {
         // return array_sum($all_points) / count($all_points);
     }
 }
+
+if(!function_exists('getUserGwPoints')) {
+    function getUserGwPoints($userId){
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+
+        $selection = Selection::where('user_id',$userId)->whereGameweek($current_gameweek)->first();
+        if(!$selection) {
+            return 'NA';
+        }
+        else {
+            $points = getTotalPoints($selection->id);
+            return $points['starters_point'];
+        }
+    }
+}

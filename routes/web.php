@@ -71,6 +71,7 @@ Route::middleware(['auth',Is_approved::class])
                 Route::post('admin/users/disapprove', [HomeController::class, 'disapprove'])->name('admin.users.disapprove');
                 Route::post('admin/users/makeAdmin', [HomeController::class, 'makeAdmin'])->name('admin.users.makeAdmin');
                 Route::post('admin/users/removeAdmin', [HomeController::class, 'removeAdmin'])->name('admin.users.removeAdmin');
+                Route::get('admin/leaders', [HomeController::class, 'leaders'])->name('admin.leaders');
                 }
             );
         }

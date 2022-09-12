@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Is_admin;
 use App\Http\Middleware\Is_approved;
+use App\Models\AufplSettings;
+use App\Models\Selection;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -74,5 +76,10 @@ class HomeController extends Controller
             return redirect()->back()->with('success', 'User is no longer an Admin');
         }
         return redirect()->back()->with('error', 'Something went wrong');
+    }
+
+    public function leaders(){
+        $users = User::paginate(10);
+        return view('admin.leadersboard', compact('users'));
     }
 }
