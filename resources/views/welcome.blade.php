@@ -32,7 +32,7 @@ $settings = getSettings();
             <a class="btn btn-secondary btn-lg" href="{{route('admin.users')}}" role="button">Users</a>
         </div>
         <div class="col mb-2">
-            <a class="btn btn-secondary btn-lg" href="{{route('admin.leaders')}}" role="button">Player's Points</a>
+            <a class="btn btn-secondary btn-lg" href="{{route('admin.leaders')}}" role="button">Leader's Board</a>
         </div>
     </div>
     @endif
