@@ -54,6 +54,7 @@ $total_points = 0;
             </div>
             <hr>
             <div class="midfielders">
+
                 <div class="row justify-content-center  m-3">
                     @foreach($data['midfielders'] as $midfielder)
                     <div class="col mt-2 player">
@@ -63,7 +64,13 @@ $total_points = 0;
                         @if($selection['vice_captain'] == $midfielder['player_id'])
                         <span class="badge" style="height:fit-content; color:#d61212">V</span>
                         @endif
-                        <div style="text-align:center">
+                        <div style="text-align:center" data-toggle="tooltip" data-placement="top" title="
+                            This user has a point
+                            Another point
+                            Another point
+                            Another point
+                            Another point
+                        ">
                             {{$midfielder['name']}} <br>
                             ({!!getPlayerPoints($midfielder['player_id'], 'mf',$selection) !!}) points
                         </div>

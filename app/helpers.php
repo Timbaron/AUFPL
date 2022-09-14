@@ -49,7 +49,8 @@ if (!function_exists('getPlayerPoints')) {
         function getPlayerPoints($playerId,$position,$selection)
     {
         $total = 0;
-        $player_points = PlayerPoint::wherePlayer_id($playerId)->first();
+        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $player_points = PlayerPoint::wherePlayer_id($playerId)->whereGameweek($current_gameweek)->first();
         if($player_points == null){
             return 0;
         }
