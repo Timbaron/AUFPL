@@ -15,7 +15,7 @@ class PlayerController extends Controller
     // only users where is_admin is true can access this controller
     public function __construct()
     {
-        $this->middleware(Is_admin::class)->except('search', 'myPlayers');
+        $this->middleware(Is_admin::class)->except('search', 'myPlayers', 'sellplayer');
     }
     public function search(Request $request)
     {
