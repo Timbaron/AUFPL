@@ -56,8 +56,8 @@
                                                     <label for="exampleInputEmail1">Yellow Card</label>
                                                     <select class="form-control form-control-sm" name="yellow_card">
                                                         <!-- if true select yes -->
-                                                        <option value="1">Yes</option>
                                                         <option value="0">No</option>
+                                                        <option value="1">Yes</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -95,6 +95,15 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
+                                                    <label for="exampleInputEmail1">Penalty Missed</label>
+                                                    <input type="number" class="form-control" value="{{$points['penalty_missed'] ?? 0}}" name="penalty_missed" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty missed" min="0" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            @if($player->position != 'FW')
+                                            <div class="col">
+                                                <div class="form-group">
                                                     <label for="exampleInputEmail1">Cleansheet</label>
                                                     <select class="form-control form-control-sm" name="cleansheet">
                                                         <option value="0">No</option>
@@ -102,14 +111,14 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Penalty Missed</label>
-                                                    <input type="number" class="form-control" value="{{$points['penalty_missed'] ?? 0}}" name="penalty_missed" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number of penalty missed" min="0" required>
+                                                    <label for="exampleInputEmail1">Goals Conceded</label>
+                                                    <input type="number" name="goals_conceded" value="{{$points['goals_conceded'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total goals conceded" min="0" required>
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if ($player->position == 'GK')
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Penalty Saved</label>
@@ -122,12 +131,7 @@
                                                     <input type="number" name="saves" value="{{$points['saves'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total saves" min="0" required>
                                                 </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Goals Conceded</label>
-                                                    <input type="number" name="goals_conceded" value="{{$points['goals_conceded'] ?? 0}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter total goals conceded" min="0" required>
-                                                </div>
-                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row justify-content-center">
                                             <button type="submit" class="btn">Update</button>
