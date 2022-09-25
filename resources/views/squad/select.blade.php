@@ -118,19 +118,31 @@ $settings = getSettings();
             <div class="col">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Bench Boost?</label>
+                    @if(auth()->user()->bench_boost)
                     <select class="form-control" name="bench_boost">
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
+                    @else
+                    <select class="form-control" name="bench_boost" disabled>
+                        <option value="0">Used</option>
+                    </select>
+                    @endif
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Triple Captain?</label>
+                    @if(auth()->user()->triple_captain)
                     <select class="form-control" name="triple_captain">
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
+                    @else
+                    <select class="form-control" name="triple_captain" disabled>
+                        <option value="0">Used</option>
+                    </select>
+                    @endif
                 </div>
             </div>
         </div>

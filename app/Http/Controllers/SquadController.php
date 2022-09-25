@@ -8,6 +8,7 @@ use App\Models\Club;
 use App\Models\Player;
 use App\Models\Selection;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SquadController extends Controller
@@ -81,11 +82,17 @@ class SquadController extends Controller
             'subs' => json_encode($bench_players),
             'captain' => $request->captain,
             'vice_captain' => $request->vice_captain,
-            'bench_boost' => $request->bench_boost,
-            'triple_captain' => $request->triple_captain,
+            'bench_boost' => $request->bench_boost ?? 0,
+            'triple_captain' => $request->triple_captain ?? 0,
         ];
         // save selected configuration
         Selection::updateOrCreate(['user_id' => auth()->user()->id, 'gameweek' => $current_gameweek],$data);
+        if($request->bench_boost == 1){
+            User::whereId(auth()->user()->id)->update(['bench_boost' => 0]);
+        }
+        if($request->triple_captain == 1){
+            User::whereId(auth()->user()->id)->update(['triple_captain' => 0]);
+        }
         return redirect()->back()->with('success', 'Selection Saved Successfully!!');
     }
 
