@@ -78,7 +78,7 @@ if (!function_exists('getPlayerPoints')) {
                 $total -= 2;
             }
             if($position == 'gk'){
-                for($i=0;$i < $player_points->goals; $i++) {
+                for($i=0;$i < $player_points->goal; $i++) {
                     $total += 6;
                 }
                 for ($i = 0; $i < $player_points->assist; $i++) {
@@ -99,7 +99,7 @@ if (!function_exists('getPlayerPoints')) {
                 }
             }
             if ($position == 'df') {
-                for ($i = 0; $i < $player_points->goals; $i++) {
+                for ($i = 0; $i < $player_points->goal; $i++) {
                     $total += 6;
                 }
                 for ($i = 0; $i < $player_points->assist; $i++) {
@@ -108,14 +108,16 @@ if (!function_exists('getPlayerPoints')) {
                 if ($player_points->cleansheet) {
                     $total += 4;
                 }
-                for ($i = 0; $i < $player_points->goals_conceded; $i + 2) {
-                    if ($i > 2) {
-                        $total -= 1;
+                if($player_points->goals_conceded >= 2){
+                    for ($i = 0; $i < $player_points->goals_conceded; $i + 2) {
+                        if ($i > 2) {
+                            $total -= 1;
+                        }
                     }
                 }
             }
             if ($position == 'mf') {
-                for ($i = 0; $i < $player_points->goals; $i++) {
+                for ($i = 0; $i < $player_points->goal; $i++) {
                     $total += 5;
                 }
                 for ($i = 0; $i < $player_points->assist; $i++) {
@@ -126,7 +128,7 @@ if (!function_exists('getPlayerPoints')) {
                 }
             }
             if ($position == 'fw') {
-                for ($i = 0; $i < $player_points->goals; $i++) {
+                for ($i = 0; $i < $player_points->goal; $i++) {
                     $total += 4;
                 }
                 for ($i = 0; $i < $player_points->assist; $i++) {
