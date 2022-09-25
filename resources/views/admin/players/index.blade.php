@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            @if($player->position != 'FW')
+                                            @if($player->position != 'FW' || $player->position != 'MF')
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Cleansheet</label>

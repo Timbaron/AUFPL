@@ -88,10 +88,10 @@ class SquadController extends Controller
         // save selected configuration
         Selection::updateOrCreate(['user_id' => auth()->user()->id, 'gameweek' => $current_gameweek],$data);
         if($request->bench_boost == 1){
-            User::whereId(auth()->user()->id)->update(['bench_boost' => 0]);
+            User::whereId(auth()->user()->id)->update(['bench_boost' => false]);
         }
         if($request->triple_captain == 1){
-            User::whereId(auth()->user()->id)->update(['triple_captain' => 0]);
+            User::whereId(auth()->user()->id)->update(['triple_captain' => false]);
         }
         return redirect()->back()->with('success', 'Selection Saved Successfully!!');
     }
