@@ -77,7 +77,7 @@ if (!function_exists('getPlayerPoints')) {
             if ($player_points->own_goal) {
                 $total -= 2;
             }
-            if($position == 'GK'){
+            if($position == 'gk'){
                 for($i=0;$i < $player_points->goals; $i++) {
                     $total += 6;
                 }
@@ -98,7 +98,7 @@ if (!function_exists('getPlayerPoints')) {
                     $total += 4;
                 }
             }
-            if ($position == 'DF') {
+            if ($position == 'df') {
                 for ($i = 0; $i < $player_points->goals; $i++) {
                     $total += 6;
                 }
@@ -114,7 +114,7 @@ if (!function_exists('getPlayerPoints')) {
                     }
                 }
             }
-            if ($position == 'MF') {
+            if ($position == 'mf') {
                 for ($i = 0; $i < $player_points->goals; $i++) {
                     $total += 5;
                 }
@@ -125,7 +125,7 @@ if (!function_exists('getPlayerPoints')) {
                     $total += 1;
                 }
             }
-            if ($position == 'FW') {
+            if ($position == 'fw') {
                 for ($i = 0; $i < $player_points->goals; $i++) {
                     $total += 4;
                 }
