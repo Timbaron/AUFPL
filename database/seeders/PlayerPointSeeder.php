@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AufplSettings;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,11 +18,12 @@ class PlayerPointSeeder extends Seeder
     public function run()
     {
         $players_id = Player::all()->pluck('player_id');
+        $current_gameweek = AufplSettings::first()->current_gameweek;
         foreach ($players_id as $id) {
             $booleans = [true,false];
             PlayerPoint::create([
                 'player_id' => $id,
-                'gameweek' => 1,
+                'gameweek' => $current_gameweek,
                 'minutes' => rand(60,90),
                 'yellow_card' => $booleans[rand(0,1)],
                 'red_card' => $booleans[rand(0,1)],
