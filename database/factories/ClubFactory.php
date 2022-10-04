@@ -16,10 +16,11 @@ class CLubFactory extends Factory
      */
     public function definition()
     {
+        $faker = \Faker\Factory::create();
         return [
-            'name' => fake()->firstName(). ' FC',
-            'owner' => fake()->name(),
-            'manager' => fake()->name()
+            'name' => $faker->firstName(). ' FC',
+            'owner' => $faker->name(),
+            'manager' => $faker->name()
         ];
     }
 }

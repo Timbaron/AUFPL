@@ -19,12 +19,13 @@ class PlayerFactory extends Factory
     {
         $clubs = Club::all()->pluck('id')->toArray();
         $positions = ['GK','DF','MF','FW'];
+        $faker = \Faker\Factory::create();
         return [
-            'name' => fake()->name(),
+            'name' => $faker->name(),
             'player_id' => uniqid('AUFPL-'),
-            'price' => fake()->numberBetween(4.0,13.0),
-            'club_id' => fake()->randomElement($clubs),
-            'position' => fake()->randomElement($positions)
+            'price' => $faker->numberBetween(4.0,13.0),
+            'club_id' => $faker->randomElement($clubs),
+            'position' => $faker->randomElement($positions)
         ];
     }
 }
