@@ -62,10 +62,11 @@ class SquadController extends Controller
         }
 
         // Gether players not ins starting 11
-        $goalkeepers = $this->getSquadPlayers()['goalkeepers'];
-        $defenders = $this->getSquadPlayers()['defenders'];
-        $midfielders = $this->getSquadPlayers()['midfielders'];
-        $forwards = $this->getSquadPlayers()['forwards'];
+        $playeers = $this->getSquadPlayers();
+        $goalkeepers = $playeers['goalkeepers'];
+        $defenders = $playeers['defenders'];
+        $midfielders = $playeers['midfielders'];
+        $forwards = $playeers['forwards'];
 
         $bench_goalkeeper = array_diff($goalkeepers, $starting_goalkeeper);
         $bench_defenders = array_diff($defenders, $starting_defenders);
@@ -75,6 +76,7 @@ class SquadController extends Controller
         $bench_players = array_merge($bench_goalkeeper, $bench_defenders, $bench_midfielders, $bench_forwards);
         $starting_players = array_merge($starting_goalkeeper, $starting_defenders, $starting_midfielders, $starting_forwards);
         $current_gameweek = AufplSettings::first()->current_gameweek;
+        $user = User::whereId(auth()->user()->id);
         $data = [
             'gameweek' => $current_gameweek,
             'user_id' => auth()->user()->id,
@@ -88,10 +90,10 @@ class SquadController extends Controller
         // save selected configuration
         Selection::updateOrCreate(['user_id' => auth()->user()->id, 'gameweek' => $current_gameweek],$data);
         if($request->bench_boost == 1){
-            User::whereId(auth()->user()->id)->update(['bench_boost' => false]);
+            $user->update(['bench_boost' => false]);
         }
         if($request->triple_captain == 1){
-            User::whereId(auth()->user()->id)->update(['triple_captain' => false]);
+            $user->update(['triple_captain' => false]);
         }
         return redirect()->back()->with('success', 'Selection Saved Successfully!!');
     }
