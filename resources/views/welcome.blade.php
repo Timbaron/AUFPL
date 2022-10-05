@@ -39,7 +39,7 @@ $settings = getSettings();
     @endauth
     </p>
 
-    <div class="infos">
+    <!-- <div class="infos">
         <div class="row">
             <div class="col mb-2">
                 <div class="info">
@@ -59,11 +59,11 @@ $settings = getSettings();
                 </div>
             </div>
         </div>
-        <!-- <div class="info">
-            MOTW:
-            Akiode Timothy
-        </div> -->
 
-    </div>
+    </div> -->
+    <!-- <div class="info">
+        MOTW:
+        Akiode Timothy
+    </div> -->
 </div>
 @endsection
