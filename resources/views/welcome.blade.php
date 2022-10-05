@@ -41,12 +41,13 @@ $settings = getSettings();
 
     <div class="infos">
         <div class="row">
+        {{--
             <div class="col mb-2">
                 <div class="info">
                     Highest Points: {{getHightestPoints()}}
                 </div>
             </div>
-            {{--
+
             <div class="col mb-2">
                 <div class="info">
                     Averaged Points: {{getAveragePoints()}}
