@@ -24,17 +24,19 @@ class PlayerPointController extends Controller
 
         $starters = [];
         $subs = [];
-        foreach ($starters_id as $starts) {
-            $player = Player::withTrashed()->wherePlayer_id($starts)->first();
-            array_push($starters, $player);
-        }
-        foreach ($subs_id as $sub) {
-            $player = Player::withTrashed()->wherePlayer_id($sub)->first();
-            array_push($subs, $player);
-        }
-        // return $starters;
+        $starters = Player::withTrashed()->whereIn('player_id', $starters_id)->get();
+        $subs = Player::withTrashed()->whereIn('player_id', $subs_id)->get();
+        // foreach ($starters_id as $starts) {
+        //     $player = Player::withTrashed()->wherePlayer_id($starts)->first();
+        //     array_push($starters, $player);
+        // }
+        // foreach ($subs_id as $sub) {
+        //     $player = Player::withTrashed()->wherePlayer_id($sub)->first();
+        //     array_push($subs, $player);
+        // }
         $starters = collect($starters);
         $subs = collect($subs);
+        // return $subs;
         // sort player by position from starters
         $goalkeepers = $starters->filter(function ($value, $Key) {
             return $value->position == 'GK';
@@ -62,11 +64,14 @@ class PlayerPointController extends Controller
             return $value->position == 'FW';
         });
         $data = [
-            'goalkeeper' => $goalkeepers[0],
+            'goalkeeper' => $goalkeepers,
             'defenders' => $defenders,
             'midfielders' => $midfielders,
             'forwards' => $forwards,
         ];
+        // return $data['goalkeeper']->pluck('player_id');
+        // get player_id from data['goalkeeper']
+        // $player_id = $data['goalkeeper']->pluck('player_id');
         $bench = [
             $goalkeepers_sub,
             $defender_sub,

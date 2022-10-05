@@ -16,47 +16,62 @@ if (!function_exists('getPlayerNameById')) {
 
 if(!function_exists('getTotalPoints')){
     function getTotalPoints($selection, $current_gameweek){
-        // $selection = Selection::find($selectionId);
+        $total_points = 0;
+
         $starters = json_decode($selection->starters);
         $subs = json_decode($selection->subs);
-        // dd($selection);
-        $starters_point = 0;
-        $bench_points = 0;
-        $starting_players = Player::withTrashed()->whereIn('player_id', $starters)->get();
-        $bench_players = Player::withTrashed()->whereIn('player_id', $subs)->get();
-        // dd($starting_players);
-
-        foreach($starting_players as $start){
-            // $player = $players->wherePlayer_id($start)->first();
-            // return $player->position;
-            $points = getPlayerPoints($start->player_id, strtolower($start->position), $selection,$current_gameweek);
-            $starters_point += $points;
-        }
-        foreach ($bench_players as $sub) {
-            // $player = $players->wherePlayer_id($sub)->first();
-            // return $player->position;
-            $points = getPlayerPoints($sub->player_id, strtolower($sub->position), $selection,$current_gameweek);
-            $bench_points += $points;
-        }
         if($selection->bench_boost){
-            $starters_point += $bench_points;
+            $starters = array_merge($starters, $subs);
         }
-        return [
-            'starters_point' => $starters_point,
-            'bench_points' => $bench_points,
-        ];
+        $points = getAllPlayerPoints($current_gameweek,$starters, $selection);
+        // dd($points);
+        // add all points values to the total points
+        foreach($points as $point){
+            $total_points += $point;
+        }
+        return $total_points;
+
+        // $selection = Selection::find($selectionId);
+        // $starters = json_decode($selection->starters);
+        // $subs = json_decode($selection->subs);
+        // // dd($selection);
+        // $starters_point = 0;
+        // $bench_points = 0;
+        // $starting_players = Player::withTrashed()->whereIn('player_id', $starters)->get();
+        // $bench_players = Player::withTrashed()->whereIn('player_id', $subs)->get();
+        // // dd($starting_players);
+
+        // foreach($starting_players as $start){
+        //     // $player = $players->wherePlayer_id($start)->first();
+        //     // return $player->position;
+        //     $points = getPlayerPoints($start->player_id, strtolower($start->position), $selection,$current_gameweek);
+        //     $starters_point += $points;
+        // }
+        // foreach ($bench_players as $sub) {
+        //     // $player = $players->wherePlayer_id($sub)->first();
+        //     // return $player->position;
+        //     $points = getPlayerPoints($sub->player_id, strtolower($sub->position), $selection,$current_gameweek);
+        //     $bench_points += $points;
+        // }
+        // if($selection->bench_boost){
+        //     $starters_point += $bench_points;
+        // }
+        // return [
+        //     'starters_point' => $starters_point,
+        //     'bench_points' => $bench_points,
+        // ];
     }
 }
 
 if (!function_exists('getPlayerPoints')) {
 
-        function getPlayerPoints($playerId,$position,$selection, $current_gameweek)
+        function getPlayerPoints($playerId,$position,$selection, $current_gameweek, $player_points)
     {
         $total = 0;
         // $current_gameweek = AufplSettings::first()->current_gameweek;
-        $player_points = PlayerPoint::wherePlayer_id($playerId)->whereGameweek($current_gameweek)->first();
+        // $player_points = PlayerPoint::wherePlayer_id($playerId)->whereGameweek($current_gameweek)->first();
         if($player_points == null){
-            return 0;
+            return $total;
         }
         else {
 
@@ -149,6 +164,46 @@ if (!function_exists('getPlayerPoints')) {
             }
             return $total;
         }
+    }
+}
+
+if(!function_exists('getAllPlayerPoints')){
+    function getAllPlayerPoints($current_gameweek,$starters , $selection){
+        // dd(count($starters));
+        // if(count($starters) > 11){
+        //     $starters = json_decode($selection->starters);
+        //     $subs = json_decode($selection->subs);
+        //     $allplayersId = array_merge($starters, $subs);
+        // }
+        // else {
+            // }
+        $allplayersId = $starters;
+        $starters_point = 0;
+        $bench_points = 0;
+        $allFullplayers = Player::withTrashed()->whereIn('player_id', $allplayersId)->get();
+        // get allfullplayers positions and player_id
+        $allFullplayers = $allFullplayers->map(function($player){
+            return [
+                'player_id' => $player->player_id,
+                'position' => $player->position,
+            ];
+        });
+        // dd($allFullplayers);
+        // $bench_players = Player::withTrashed()->whereIn('player_id', $subs)->get();
+        // dd($allFullplayers);
+        // merge both players
+
+        $Points = PlayerPoint::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
+        // return an array with player_id as key and points as value
+
+        // use allFullplayers variable
+
+        $points = $Points->mapWithKeys(function ($item) use ( $allFullplayers, $selection, $current_gameweek) {
+
+            $player = $allFullplayers->where('player_id', $item->player_id)->first();
+            return [$item['player_id'] => getPlayerPoints($item['player_id'], strtolower($player['position']), $selection, $current_gameweek, $item)];
+        });
+        return $points;
     }
 }
 
@@ -275,7 +330,7 @@ if (!function_exists('getManagerOfTheWeek')) {
         $selections = Selection::whereGameweek($current_gameweek)->get();
         $all_points = [];
         foreach ($selections as $selection) {
-            $points = getTotalPoints($selection->id);
+            $points = getTotalPoints($selection, $current_gameweek);
             array_push($all_points, $points['starters_point']);
         }
         $points = array_count_values($all_points);
@@ -302,7 +357,7 @@ if(!function_exists('getUserGwPoints')) {
             return 'NA';
         }
         else {
-            $points = getTotalPoints($selection->id);
+            $points = getTotalPoints($selection, $current_gameweek);
             return $points['starters_point'];
         }
     }

@@ -5,12 +5,14 @@
 @section('content')
 <?php
 $total_points = 0;
+$current_gameweek = getSettings()['current_gameweek'];
+$points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters), $selection);
 ?>
 <div class="main m-3 justify-content-center ">
     <div class="row justify-content-center  m-3">
         <div class="col player mt-4" style="text-align:center;">
             Total Points <br>
-            {!! getTotalPoints($selection->id)['starters_point']!!}
+                {!!getTotalPoints($selection, $current_gameweek)!!}
         </div>
     </div>
     <div class="row justify-content-center  m-3">
@@ -18,15 +20,16 @@ $total_points = 0;
             <div class="goalkeepers">
                 <div class="row justify-content-center m-3">
                     <div class="col-md-4 player">
-                        @if($selection['captain'] == $data['goalkeeper']['player_id'])
+                        @if($selection['captain'] == $data['goalkeeper']->pluck('player_id'))
                         <span class="badge" style="height:fit-content; color:blue">C</span>
                         @endif
-                        @if($selection['vice_captain'] == $data['goalkeeper']['player_id'])
+                        @if($selection['vice_captain'] == $data['goalkeeper']->pluck('player_id'))
                         <span class="badge" style="height:fit-content; color:#d61212">V</span>
                         @endif
                         <div style="text-align:center;" class="">
-                            {{$data['goalkeeper']['name']}} <br>
-                            ({!!getPlayerPoints($data['goalkeeper']['player_id'], 'gk',$selection) !!}) points
+                            {{$data['goalkeeper']->pluck('name')[0]}} <br>
+                            {{$points[$data['goalkeeper']->pluck('player_id')[0]] ?? 0}}
+
                         </div>
                     </div>
                 </div>
@@ -45,7 +48,7 @@ $total_points = 0;
                         <div style="text-align:center">
                             {{$defender['name']}} <br>
                             <div class="points">
-                                ({!!getPlayerPoints($defender['player_id'], 'df',$selection) !!}) points
+                                {{$points[$defender['player_id']] ?? 0}}
                             </div>
                         </div>
                     </div>
@@ -64,15 +67,11 @@ $total_points = 0;
                         @if($selection['vice_captain'] == $midfielder['player_id'])
                         <span class="badge" style="height:fit-content; color:#d61212">V</span>
                         @endif
-                        <div style="text-align:center" data-toggle="tooltip" data-placement="top" title="
-                            This user has a point
-                            Another point
-                            Another point
-                            Another point
-                            Another point
-                        ">
+                        <div style="text-align:center" data-toggle="tooltip" data-placement="top" title="">
                             {{$midfielder['name']}} <br>
-                            ({!!getPlayerPoints($midfielder['player_id'], 'mf',$selection) !!}) points
+                            <div class="points">
+                                {{$points[$midfielder['player_id']] ?? 0}}
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -91,7 +90,9 @@ $total_points = 0;
                         @endif
                         <div style="text-align:center">
                             {{$forward['name']}} <br>
-                            ({!!getPlayerPoints($forward['player_id'], 'fw',$selection ) !!}) points
+                            <div class="points">
+                                {{$points[$forward['player_id']] ?? 0}}
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -117,7 +118,9 @@ $total_points = 0;
             @endif
             <div style="text-align:center">
                 {{$player['name']}} <br>
-                ({!!getPlayerPoints($player['player_id'], strtolower($player['position']),$selection) !!}) points
+                <div class="points">
+                    {{$points[$player['player_id']] ?? 0}}
+                </div>
             </div>
         </div>
         @endforeach
