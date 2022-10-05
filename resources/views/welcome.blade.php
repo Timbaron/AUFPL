@@ -4,10 +4,10 @@
 
 @section('content')
 <?php
-// $settings = getSettings();
+$settings = getSettings();
 ?>
 <div class="jumbotron mt-3 jumbo">
-    <h1 class="display-8">Gameweek 1</h1>
+    <h1 class="display-8">Gameweek {{$settings['current_gameweek']}}</h1>
 
     <p class="lead">
         <a class="btn btn-secondary btn-lg" href="/my-players" role="button">My Players</a>
@@ -39,13 +39,14 @@
     @endauth
     </p>
 
-    <!-- <div class="infos">
+    <div class="infos">
         <div class="row">
             <div class="col mb-2">
                 <div class="info">
                     Highest Points: {{getHightestPoints()}}
                 </div>
             </div>
+            {{--
             <div class="col mb-2">
                 <div class="info">
                     Averaged Points: {{getAveragePoints()}}
@@ -57,10 +58,10 @@
                     {{getMostCaptained()['name']}} <br>
                     {{ getMostCaptained()['times']}} Time(s)
                 </div>
-            </div>
+            </div> --}}
         </div>
 
-    </div> -->
+    </div>
     <!-- <div class="info">
         MOTW:
         Akiode Timothy
