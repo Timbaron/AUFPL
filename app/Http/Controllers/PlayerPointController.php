@@ -8,13 +8,17 @@ use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\Selection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PlayerPointController extends Controller
 {
     public function index()
     {
-        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $current_gameweek = Cache::remember('current_gameweek', 86400, function () {
+            return AufplSettings::first()->current_gameweek;
+        });
         $selection = Selection::whereUser_id(auth()->user()->id)->whereGameweek($current_gameweek)->first();
+        // dd($selection);
         if ($selection == null) {
             // rediterect to /transfer
             return redirect()->route('transfer')->with('error', 'You have not made any selections yet');
@@ -24,8 +28,13 @@ class PlayerPointController extends Controller
 
         $starters = [];
         $subs = [];
-        $starters = Player::withTrashed()->whereIn('player_id', $starters_id)->get();
-        $subs = Player::withTrashed()->whereIn('player_id', $subs_id)->get();
+        // use cache
+        $starters = Cache::remember('starters', 3600, function () use ($starters_id) {
+            return Player::withTrashed()->whereIn('player_id', $starters_id)->get();
+        });
+        $subs = Cache::remember('subs', 3600, function () use ($subs_id) {
+            return Player::withTrashed()->whereIn('player_id', $subs_id)->get();
+        });
         // foreach ($starters_id as $starts) {
         //     $player = Player::withTrashed()->wherePlayer_id($starts)->first();
         //     array_push($starters, $player);

@@ -4,6 +4,7 @@ use App\Models\AufplSettings;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\Selection;
+use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('getPlayerNameById')) {
 
@@ -68,8 +69,6 @@ if (!function_exists('getPlayerPoints')) {
         function getPlayerPoints($playerId,$position,$selection, $current_gameweek, $player_points)
     {
         $total = 0;
-        // $current_gameweek = AufplSettings::first()->current_gameweek;
-        // $player_points = PlayerPoint::wherePlayer_id($playerId)->whereGameweek($current_gameweek)->first();
         if($player_points == null){
             return $total;
         }
@@ -169,18 +168,12 @@ if (!function_exists('getPlayerPoints')) {
 
 if(!function_exists('getAllPlayerPoints')){
     function getAllPlayerPoints($current_gameweek,$starters , $selection){
-        // dd(count($starters));
-        // if(count($starters) > 11){
-        //     $starters = json_decode($selection->starters);
-        //     $subs = json_decode($selection->subs);
-        //     $allplayersId = array_merge($starters, $subs);
-        // }
-        // else {
-            // }
         $allplayersId = $starters;
         $starters_point = 0;
         $bench_points = 0;
-        $allFullplayers = Player::withTrashed()->whereIn('player_id', $allplayersId)->get();
+        $allFullplayers = Cache::remember('allFullplayers',3600, function () use ($allplayersId){
+            return Player::withTrashed()->whereIn('player_id', $allplayersId)->get();
+        });
         // get allfullplayers positions and player_id
         $allFullplayers = $allFullplayers->map(function($player){
             return [
@@ -188,16 +181,9 @@ if(!function_exists('getAllPlayerPoints')){
                 'position' => $player->position,
             ];
         });
-        // dd($allFullplayers);
-        // $bench_players = Player::withTrashed()->whereIn('player_id', $subs)->get();
-        // dd($allFullplayers);
-        // merge both players
-
-        $Points = PlayerPoint::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
-        // return an array with player_id as key and points as value
-
-        // use allFullplayers variable
-
+        $Points = Cache::remember('Points',3600, function () use ($allplayersId,$current_gameweek){
+            return PlayerPoint::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
+        });
         $points = $Points->mapWithKeys(function ($item) use ( $allFullplayers, $selection, $current_gameweek) {
 
             $player = $allFullplayers->where('player_id', $item->player_id)->first();
@@ -252,7 +238,9 @@ if (!function_exists('getHightestPoints')) {
 
     function getHightestPoints()
     {
-        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $current_gameweek = Cache::remember('current_gameweek',86400, function (){
+            return AufplSettings::first()->current_gameweek;
+        });
         $selections = Selection::whereGameweek($current_gameweek)->get();
         // dd($selections);
         $all_points = [];

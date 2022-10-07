@@ -5,14 +5,21 @@
 @section('content')
 <?php
 $total_points = 0;
-$current_gameweek = getSettings()['current_gameweek'];
+$current_gameweek = cache()->remember('current_gameweek',20, function (){
+    getSettings()['current_gameweek'];
+});
 $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters), $selection);
 ?>
 <div class="main m-3 justify-content-center ">
     <div class="row justify-content-center  m-3">
         <div class="col player mt-4" style="text-align:center;">
             Total Points <br>
-                {!!getTotalPoints($selection, $current_gameweek)!!}
+            <?php
+                foreach ($points as $point){
+                    $total_points += $point;
+                }
+            ?>
+                {{$total_points}}
         </div>
     </div>
     <div class="row justify-content-center  m-3">
