@@ -41,18 +41,21 @@ $settings = getSettings();
 
     <div class="infos">
         <div class="row">
-        {{--
+        <?php
+            $point_details = getHightestAndAveragePoints()
+        ?>
             <div class="col mb-2">
                 <div class="info">
-                    Highest Points: {{getHightestPoints()}}
+                    Highest Points: {{$point_details['highest']}}
                 </div>
             </div>
 
             <div class="col mb-2">
                 <div class="info">
-                    Averaged Points: {{getAveragePoints()}}
+                    Averaged Points: {{round($point_details['average'])}}
                 </div>
             </div>
+            {{--
             <div class="col mb-2">
                 <div class="info">
                     Most Captained:

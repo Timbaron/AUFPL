@@ -3,6 +3,7 @@
 use App\Models\AufplSettings;
 use App\Models\Player;
 use App\Models\PlayerPoint;
+use App\Models\Points;
 use App\Models\Selection;
 use Illuminate\Support\Facades\Cache;
 
@@ -201,26 +202,35 @@ if (!function_exists('getSettings')) {
 
 }
 
-if (!function_exists('getHightestPoints')) {
+if (!function_exists('getHightestAndAveragePoints')) {
 
-    function getHightestPoints()
+    function getHightestAndAveragePoints()
     {
         $current_gameweek = Cache::remember('current_gameweek',86400, function (){
             return AufplSettings::first()->current_gameweek;
         });
-        $selections = Selection::whereGameweek($current_gameweek)->get();
-        // dd($selections);
-        $all_points = [];
-        foreach ($selections as $selection) {
-            $points = getTotalPoints($selection, $current_gameweek);
-            array_push($all_points, $points['starters_point']);
-        }
-        if(empty($all_points)){
-            return 0;
-        }
-        else {
-            return max($all_points);
-        }
+        $points = Points::whereGameweek($current_gameweek)->get();
+        // get average and highest points
+        $average = $points->avg('points');
+        $highest = $points->max('points');
+        return [
+            'average' => $average,
+            'highest' => $highest,
+        ];
+
+        // $selections = Selection::whereGameweek($current_gameweek)->get();
+        // // dd($selections);
+        // $all_points = [];
+        // foreach ($selections as $selection) {
+        //     $points = getTotalPoints($selection, $current_gameweek);
+        //     array_push($all_points, $points['starters_point']);
+        // }
+        // if(empty($all_points)){
+        //     return 0;
+        // }
+        // else {
+        //     return max($all_points);
+        // }
     }
 }
 
