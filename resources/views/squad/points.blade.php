@@ -5,23 +5,13 @@
 @section('content')
 <?php
 $total_points = 0;
-$current_gameweek = cache()->remember('current_gameweek',20, function (){
+$sub_points = 0;
+$current_gameweek = cache()->remember('current_gameweek', 20, function () {
     getSettings()['current_gameweek'];
 });
-$points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters), $selection);
+// $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters), $selection);
 ?>
 <div class="main m-3 justify-content-center ">
-    <div class="row justify-content-center  m-3">
-        <div class="col player mt-4" style="text-align:center;">
-            Total Points <br>
-            <?php
-                foreach ($points as $point){
-                    $total_points += $point;
-                }
-            ?>
-                {{$total_points}}
-        </div>
-    </div>
     <div class="row justify-content-center  m-3">
         <div class="col mt-2" style="border-right: 1px solid #000">
             <div class="goalkeepers">
@@ -35,8 +25,10 @@ $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters)
                         @endif
                         <div style="text-align:center;" class="">
                             {{$data['goalkeeper']->pluck('name')[0]}} <br>
-                            {{$points[$data['goalkeeper']->pluck('player_id')[0]] ?? 0}}
-
+                            {{$pointers[$data['goalkeeper']->pluck('player_id')[0]]}}
+                            <?php
+                            $total_points += $pointers[$data['goalkeeper']->pluck('player_id')[0]];
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -55,7 +47,10 @@ $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters)
                         <div style="text-align:center">
                             {{$defender['name']}} <br>
                             <div class="points">
-                                {{$points[$defender['player_id']] ?? 0}}
+                                {{$pointers[$defender['player_id']]}}
+                                <?php
+                                $total_points += $pointers[$defender['player_id']];
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -77,7 +72,10 @@ $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters)
                         <div style="text-align:center" data-toggle="tooltip" data-placement="top" title="">
                             {{$midfielder['name']}} <br>
                             <div class="points">
-                                {{$points[$midfielder['player_id']] ?? 0}}
+                                {{$pointers[$midfielder['player_id']]}}
+                                <?php
+                                $total_points += $pointers[$midfielder['player_id']];
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -98,7 +96,10 @@ $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters)
                         <div style="text-align:center">
                             {{$forward['name']}} <br>
                             <div class="points">
-                                {{$points[$forward['player_id']] ?? 0}}
+                                {{$pointers[$forward['player_id']]}}
+                                <?php
+                                $total_points += $pointers[$forward['player_id']];
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -126,14 +127,34 @@ $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters)
             <div style="text-align:center">
                 {{$player['name']}} <br>
                 <div class="points">
-                    {{$points[$player['player_id']] ?? 0}}
+                    {{$pointers[$player['player_id']]}}
+                    <?php
+                    $sub_points += $pointers[$player['player_id']];
+                    ?>
                 </div>
             </div>
         </div>
         @endforeach
         @endforeach
     </div>
-</div>
+    <div class="row justify-content-center  m-3">
+        <div class="col player m-4" style="text-align:center; color:red; border:1px solid blue">
+            Total Points <br>
+            <?php
+            // foreach ($points as $point){
+            //     $total_points += $point;
+            // }
+            // dd($selection)
+            if($selection->bench_boost){
+                $total_points += $sub_points;
+            }
+            ?>
+            {{$total_points}}
+            @if($selection->bench_boost)
+            (Bench Boost)
+            @endif
+        </div>
+    </div>
 </div>
 
 @endsection

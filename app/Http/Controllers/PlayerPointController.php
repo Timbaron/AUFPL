@@ -6,6 +6,7 @@ use App\Models\AufplSettings;
 use App\Models\Club;
 use App\Models\Player;
 use App\Models\PlayerPoint;
+use App\Models\Points;
 use App\Models\Selection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -25,7 +26,19 @@ class PlayerPointController extends Controller
         }
         $starters_id = json_decode($selection->starters);
         $subs_id = json_decode($selection->subs);
-
+        // get starters and subs points
+        $allplayersId = array_merge($starters_id, $subs_id);
+        // dd($allplayersId);
+        $points = Points::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
+        // map player id to their points
+        $pointers = $points->mapWithKeys(function ($item) use ($selection) {
+            // cheack if player is selection captain
+            $is_captain = $item->player_id == $selection->captain;
+            // if captain multiply points by 2 else if triple_captain multiply by 3
+            $points = $is_captain ? $item['points'] * 2 : ($selection->triple_captain ? $item['points'] * 3 : $item['points']);
+            return [$item['player_id'] => $points];
+        });
+        // dd($pointers);
         $starters = [];
         $subs = [];
         // use cache
@@ -87,7 +100,7 @@ class PlayerPointController extends Controller
             $midfielder_sub,
             $forward_sub,
         ];
-        return view('squad/points', compact('data', 'bench', 'selection'));
+        return view('squad/points', compact('data', 'bench','pointers', 'selection'));
     }
 
     public function edit()
@@ -96,7 +109,8 @@ class PlayerPointController extends Controller
         return view('admin/players/index', compact('clubs'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         // dd($request->all());
         unset($request['_token']);
         $player = Player::wherePlayer_id($request->player_id)->first();
@@ -105,19 +119,17 @@ class PlayerPointController extends Controller
         // dd($player_point);
         // dd($request->all());
         // $playerpoint = PlayerPoint::wherePlayer_id($request->player_id)->first();
-        if($player_point == null){
+        if ($player_point == null) {
             $request['player_id'] = $request->player_id;
             $request['gameweek'] = $current_gameweek;
             $update = PlayerPoint::create($request->all());
-        }
-        else{
+        } else {
             $update = PlayerPoint::wherePlayer_id($request->player_id)->whereGameweek($current_gameweek)->update($request->all());
         }
         // $update = $player_point->updateOrCreate($request->all());
-        if($update){
+        if ($update) {
             return redirect()->back()->with('success', 'Player point updated');
-        }
-        else {
+        } else {
             return redirect()->back()->with('error', 'Player point not updated' . '(', $player->name . ')');
         }
     }

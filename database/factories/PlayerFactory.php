@@ -23,7 +23,7 @@ class PlayerFactory extends Factory
         return [
             'name' => $faker->name(),
             'player_id' => uniqid('AUFPL-'),
-            'price' => $faker->numberBetween(4.0,13.0),
+            'price' => $faker->numberBetween(4.0,7.0),
             'club_id' => $faker->randomElement($clubs),
             'position' => $faker->randomElement($positions)
         ];

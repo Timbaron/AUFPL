@@ -66,14 +66,13 @@ if(!function_exists('getTotalPoints')){
 
 if (!function_exists('getPlayerPoints')) {
 
-        function getPlayerPoints($playerId,$position,$selection, $current_gameweek, $player_points)
-    {
+        function getPlayerPoints($player_points)
+{
         $total = 0;
         if($player_points == null){
             return $total;
         }
         else {
-
             if($player_points->minutes >= 60 ){
                 $total += 2;
             }
@@ -95,76 +94,44 @@ if (!function_exists('getPlayerPoints')) {
             if ($player_points->own_goal) {
                 $total -= 2;
             }
-            if($position == 'gk'){
-                for($i=0;$i < $player_points->goal; $i++) {
-                    $total += 6;
-                }
-                for ($i = 0; $i < $player_points->assist; $i++) {
-                    $total += 6;
-                }
-                for ($i = 0; $i < $player_points->goals_conceded; $i+2) {
-                    if($i >= 2){
-                        $total -= 1;
-                    }
-                }
-                for ($i = 0; $i < $player_points->saves; $i + 3) {
-                    if ($i >= 3) {
-                        $total += 1;
-                    }
-                }
-                if ($player_points->cleansheet) {
+            if($player_points->player->position == 'GK'){
+                // total + 6 per goal scored
+                $total += $player_points->goal * 6;
+                $total += $player_points->assist * 6;
+                if($player_points->clean_sheet){
                     $total += 4;
                 }
+                $total -= floor($player_points->goals_conceded / 2);
+                $total += floor($player_points->saves / 3);
             }
-            if ($position == 'df') {
-                for ($i = 0; $i < $player_points->goal; $i++) {
-                    $total += 6;
-                }
-                for ($i = 0; $i < $player_points->assist; $i++) {
-                    $total += 3;
-                }
-                if ($player_points->cleansheet) {
+            if ($player_points->player->position == 'DF') {
+                // total + 6 per goal scored
+                $total += $player_points->goal * 6;
+                $total += $player_points->assist * 3;
+                if ($player_points->clean_sheet) {
                     $total += 4;
                 }
-                if($player_points->goals_conceded >= 2){
-                    for ($i = 0; $i < $player_points->goals_conceded; $i + 2) {
-                        if ($i > 2) {
-                            $total -= 1;
-                        }
-                    }
-                }
+                $total -= floor($player_points->goals_conceded / 2);
             }
-            if ($position == 'mf') {
-                for ($i = 0; $i < $player_points->goal; $i++) {
-                    $total += 5;
-                }
-                for ($i = 0; $i < $player_points->assist; $i++) {
-                    $total += 3;
-                }
-                if ($player_points->cleansheet) {
+            }
+            if ($player_points->player->position == 'MF') {
+                // total + 5 per goal scored
+                $total += $player_points->goal * 5;
+                $total += $player_points->assist * 3;
+                if ($player_points->clean_sheet) {
                     $total += 1;
                 }
             }
-            if ($position == 'fw') {
-                for ($i = 0; $i < $player_points->goal; $i++) {
-                    $total += 4;
-                }
-                for ($i = 0; $i < $player_points->assist; $i++) {
-                    $total += 3;
-                }
+            if ($player_points->player->position == 'FW') {
+                // total + 4 per goal scored
+                $total += $player_points->goal * 4;
+                $total += $player_points->assist * 3;
             }
-            if($playerId == $selection['captain']){
-                if($selection['triple_captain']){
-                    $total *= 3;
-                }
-                else {
-                    $total *=2;
-                }
-            }
+
             return $total;
         }
-    }
 }
+
 
 if(!function_exists('getAllPlayerPoints')){
     function getAllPlayerPoints($current_gameweek,$starters , $selection){

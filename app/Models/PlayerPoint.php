@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlayerPoint extends Model
 {
     use HasFactory;
-    
+
     protected $fillable =  [
         'player_id',
         'gameweek',
@@ -25,4 +25,9 @@ class PlayerPoint extends Model
         'saves',
         'goals_conceded',
     ];
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class, 'player_id', 'player_id');
+    }
 }
