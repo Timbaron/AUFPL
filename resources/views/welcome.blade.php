@@ -44,6 +44,7 @@ $settings = getSettings();
         <?php
             $point_details = getHightestAndAveragePoints()
         ?>
+        @auth
             <div class="col mb-2">
                 <div class="info">
                     Highest Points: {{$point_details['highest']}}
@@ -61,6 +62,7 @@ $settings = getSettings();
                     {{$point_details['highest_user']}}
                 </div>
         </div>
+        @endauth
 
     </div>
     <!-- <div class="info">
