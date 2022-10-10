@@ -18,18 +18,20 @@ class PlayerPointController extends Controller
         $current_gameweek = Cache::remember('current_gameweek', 86400, function () {
             return AufplSettings::first()->current_gameweek;
         });
+        // dd($current_gameweek);
         $selection = Selection::whereUser_id(auth()->user()->id)->whereGameweek($current_gameweek)->first();
-        // dd($selection);
         if ($selection == null) {
             // rediterect to /transfer
             return redirect()->route('transfer')->with('error', 'You have not made any selections yet');
         }
+        // dd($selection);
         $starters_id = json_decode($selection->starters);
         $subs_id = json_decode($selection->subs);
         // get starters and subs points
         $allplayersId = array_merge($starters_id, $subs_id);
         // dd($allplayersId);
         $points = Points::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
+        // dd($points);
         // map player id to their points
         $pointers = $points->mapWithKeys(function ($item) use ($selection) {
             // cheack if player is selection captain
@@ -38,7 +40,6 @@ class PlayerPointController extends Controller
             $points = $is_captain ? $item['points'] * 2 : ($selection->triple_captain ? $item['points'] * 3 : $item['points']);
             return [$item['player_id'] => $points];
         });
-        // dd($pointers);
         $starters = [];
         $subs = [];
         // use cache
@@ -111,10 +112,12 @@ class PlayerPointController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->all());
         unset($request['_token']);
+        // dd($request->all());
         $player = Player::wherePlayer_id($request->player_id)->first();
+        // dd($player);
         $current_gameweek = AufplSettings::first()->current_gameweek;
+        // dd($current_gameweek);
         $player_point = PlayerPoint::wherePlayer_id($request->player_id)->whereGameweek($current_gameweek)->first();
         // dd($player_point);
         // dd($request->all());

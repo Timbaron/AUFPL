@@ -55,14 +55,11 @@ $settings = getSettings();
                     Averaged Points: {{round($point_details['average'])}}
                 </div>
             </div>
-            {{--
             <div class="col mb-2">
                 <div class="info">
-                    Most Captained:
-                    {{getMostCaptained()['name']}} <br>
-                    {{ getMostCaptained()['times']}} Time(s)
+                    MOTW:
+                    {{$point_details['highest_user']}}
                 </div>
-            </div> --}}
         </div>
 
     </div>

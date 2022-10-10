@@ -9,6 +9,7 @@ $sub_points = 0;
 $current_gameweek = cache()->remember('current_gameweek', 20, function () {
     getSettings()['current_gameweek'];
 });
+// dd($pointers)
 // $points = getAllPlayerPoints($current_gameweek,json_decode($selection->starters), $selection);
 ?>
 <div class="main m-3 justify-content-center ">
@@ -150,6 +151,7 @@ $current_gameweek = cache()->remember('current_gameweek', 20, function () {
             }
             ?>
             {{$total_points}}
+            {{saveTotalPoints($total_points,$current_gameweek)}}
             @if($selection->bench_boost)
             (Bench Boost)
             @endif

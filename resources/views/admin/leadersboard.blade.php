@@ -22,20 +22,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach($points as $point)
                             <tr>
-                                <td>{{$user->name}}</td>
-                                <td>{{$user->email}}</td>
-                                <td>{{$user->balance}}</td>
+                                <td>{{$point->user->name}}</td>
+                                <td>{{$point->user->email}}</td>
+                                <td>{{$point->user->balance}}</td>
                                 <td>
-                                    {{getUserGwPoints($user->id)}}
+                                    {{$point->points}}
                                 </td>
 
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{$users->links()}}
+                    {{$points->links()}}
                 </div>
                 <!-- /.card-body -->
             </div>

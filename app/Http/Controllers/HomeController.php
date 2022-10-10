@@ -6,8 +6,10 @@ use App\Http\Middleware\Is_admin;
 use App\Http\Middleware\Is_approved;
 use App\Models\AufplSettings;
 use App\Models\Selection;
+use App\Models\TotalPoints;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -79,7 +81,13 @@ class HomeController extends Controller
     }
 
     public function leaders(){
-        $users = User::paginate(10);
-        return view('admin.leadersboard', compact('users'));
+        // get total points with users orderBy points
+        $current_gameweek = Cache::remember('current_gameweek', 3600, function () {
+            return AufplSettings::first()->current_gameweek;
+        });
+        $points = TotalPoints::with('user')
+        ->whereGameweek($current_gameweek)
+        ->orderBy('points', 'desc')->paginate(10);
+        return view('admin.leadersboard', compact('points'));
     }
 }

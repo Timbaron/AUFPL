@@ -26,6 +26,8 @@ class SquadController extends Controller
             return redirect()->route('transfer')->with('error', 'You have not created a team yet');
         }
         $players = collect(json_decode($team->squad));
+        // extract players id from players
+        $players_id = $players->pluck('player_id');
 
         $goalkeepers = $players->filter(function ($value, $Key) {
             return $value->player_position == 'GK';
@@ -40,7 +42,7 @@ class SquadController extends Controller
             return $value->player_position == 'FW';
         });
 
-        return view('squad/select', compact('goalkeepers', 'defenders', 'midfielders', 'forwards'));
+        return view('squad/select', compact('goalkeepers', 'defenders', 'midfielders', 'forwards','players_id'));
     }
 
     public function confirm_selections(Request $request) {

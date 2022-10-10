@@ -5,6 +5,7 @@
 @section('content')
 <?php
 $settings = getSettings();
+$playersName = getPlayersName($players_id)
 ?>
 @if($settings['squad_selection_open'])
 <div class="main mt-3">
@@ -19,7 +20,7 @@ $settings = getSettings();
                                 <label for="exampleFormControlSelect1">Select Goalkeeper</label>
                                 <select class="form-control" name="goalkeeper[]">
                                     @foreach($goalkeepers as $gk)
-                                    <option value="{{$gk->player_id}}">{{getPlayerNameById($gk->player_id)}}</option>
+                                    <option value="{{$gk->player_id}}">{{$playersName[$gk->player_id]}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -36,7 +37,7 @@ $settings = getSettings();
                         <div class="col" style="text-align: center">
                             <select class="form-control" name="defenders[]">
                                 <option value="" selected>---------</option>
-                                <option value="{{$df->player_id}}">{{getPlayerNameById($df->player_id)}}</option>
+                                <option value="{{$df->player_id}}">{{$playersName[$df->player_id]}}</option>
                             </select>
                         </div>
                         @endforeach
@@ -52,7 +53,7 @@ $settings = getSettings();
                         <div class="col" style="text-align: center">
                             <select class="form-control" name="midfielders[]">
                                 <option value="" selected>---------</option>
-                                <option value="{{$mf->player_id}}">{{getPlayerNameById($mf->player_id)}}</option>
+                                <option value="{{$mf->player_id}}">{{$playersName[$mf->player_id]}}</option>
                             </select>
                         </div>
                         @endforeach
@@ -68,7 +69,7 @@ $settings = getSettings();
                         <div class="col" style="text-align: center">
                             <select class="form-control" name="forwards[]">
                                 <option value="" selected>---------</option>
-                                <option value="{{$fw->player_id}}">{{getPlayerNameById($fw->player_id)}}</option>
+                                <option value="{{$fw->player_id}}">{{$playersName[$fw->player_id]}}</option>
                             </select>
                         </div>
                         @endforeach
@@ -82,16 +83,16 @@ $settings = getSettings();
                     <label for="exampleFormControlSelect1">Select Captain</label>
                     <select class="form-control" name="captain">
                         @foreach($goalkeepers as $gk)
-                        <option value="{{$gk->player_id}}">{{getPlayerNameById($gk->player_id)}}</option>
+                        <option value="{{$gk->player_id}}">{{$playersName[$gk->player_id]}}</option>
                         @endforeach
                         @foreach($defenders as $df)
-                        <option value="{{$df->player_id}}">{{getPlayerNameById($df->player_id)}}</option>
+                        <option value="{{$df->player_id}}">{{$playersName[$df->player_id]}}</option>
                         @endforeach
                         @foreach($midfielders as $mf)
-                        <option value="{{$mf->player_id}}">{{getPlayerNameById($mf->player_id)}}</option>
+                        <option value="{{$mf->player_id}}">{{$playersName[$mf->player_id]}}</option>
                         @endforeach
                         @foreach($forwards as $fw)
-                        <option value="{{$fw->player_id}}">{{getPlayerNameById($fw->player_id)}}</option>
+                        <option value="{{$fw->player_id}}">{{$playersName[$fw->player_id]}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -101,16 +102,16 @@ $settings = getSettings();
                     <label for="exampleFormControlSelect1">Select Vice Captain</label>
                     <select class="form-control" name="vice_captain">
                         @foreach($goalkeepers as $gk)
-                        <option value="{{$gk->player_id}}">{{getPlayerNameById($gk->player_id)}}</option>
+                        <option value="{{$gk->player_id}}">{{$playersName[$gk->player_id]}}</option>
                         @endforeach
                         @foreach($defenders as $df)
-                        <option value="{{$df->player_id}}">{{getPlayerNameById($df->player_id)}}</option>
+                        <option value="{{$df->player_id}}">{{$playersName[$df->player_id]}}</option>
                         @endforeach
                         @foreach($midfielders as $mf)
-                        <option value="{{$mf->player_id}}">{{getPlayerNameById($mf->player_id)}}</option>
+                        <option value="{{$mf->player_id}}">{{$playersName[$mf->player_id]}}</option>
                         @endforeach
                         @foreach($forwards as $fw)
-                        <option value="{{$fw->player_id}}">{{getPlayerNameById($fw->player_id)}}</option>
+                        <option value="{{$fw->player_id}}">{{$playersName[$fw->player_id]}}</option>
                         @endforeach
                     </select>
                 </div>

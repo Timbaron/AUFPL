@@ -5,6 +5,7 @@ use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\Points;
 use App\Models\Selection;
+use App\Models\TotalPoints;
 use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('getPlayerNameById')) {
@@ -15,6 +16,22 @@ if (!function_exists('getPlayerNameById')) {
         return $player->name;
     }
 }
+if (!function_exists('getPlayersName')) {
+
+    function getPlayersName($playersId)
+    {
+        $players = Player::withTrashed()->whereIn('player_id', $playersId)->get();
+        // map players ID with players name
+        $players = $players->mapWithKeys(function ($item) {
+            return [$item['player_id'] => $item['name']];
+        });
+        return $players;
+
+        // $player = Player::withTrashed()->wherePlayer_id($playerId)->first();
+        // return $player->name;
+    }
+}
+
 
 if(!function_exists('getTotalPoints')){
     function getTotalPoints($selection, $current_gameweek){
@@ -149,6 +166,7 @@ if(!function_exists('getAllPlayerPoints')){
                 'position' => $player->position,
             ];
         });
+        // dd($allFullplayers);
         $Points = Cache::remember('Points',3600, function () use ($allplayersId,$current_gameweek){
             return PlayerPoint::whereIn('player_id', $allplayersId)->whereGameweek($current_gameweek)->get();
         });
@@ -209,13 +227,16 @@ if (!function_exists('getHightestAndAveragePoints')) {
         $current_gameweek = Cache::remember('current_gameweek',86400, function (){
             return AufplSettings::first()->current_gameweek;
         });
-        $points = Points::whereGameweek($current_gameweek)->get();
+        $points = TotalPoints::with('user')->whereGameweek($current_gameweek)->get();
         // get average and highest points
         $average = $points->avg('points');
         $highest = $points->max('points');
+        // get user with highest points
+        $highest_user = $points->where('points', $highest)->first();
         return [
             'average' => $average,
             'highest' => $highest,
+            'highest_user' => $highest_user->user->name,
         ];
 
         // $selections = Selection::whereGameweek($current_gameweek)->get();
@@ -243,7 +264,7 @@ if (!function_exists('getAveragePoints')) {
         // dd($selections);
         $all_points = [];
         foreach ($selections as $selection) {
-            $points = getTotalPoints($selection->id);
+            $points = getTotalPoints($selection->id, $current_gameweek);
             array_push($all_points, $points['starters_point']);
         }
         if(empty($all_points)){
@@ -322,8 +343,20 @@ if(!function_exists('getUserGwPoints')) {
             return 'NA';
         }
         else {
+            // dd($selection);
             $points = getTotalPoints($selection, $current_gameweek);
-            return $points['starters_point'];
+            dd($points);
+            // return $points['starters_point'];
         }
+    }
+}
+
+if(!function_exists('saveTotalPoints')){
+    function saveTotalPoints($total,$current_gameweek){
+        // update total point for user and current gameweek
+        TotalPoints::updateOrCreate(
+            ['user_id' => auth()->user()->id, 'gameweek' => $current_gameweek],
+            ['points' => $total]
+        );
     }
 }

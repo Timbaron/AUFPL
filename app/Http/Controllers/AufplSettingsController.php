@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Is_admin;
 use App\Models\AufplSettings;
+use App\Models\Player;
+use App\Models\Points;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class AufplSettingsController extends Controller
 {
@@ -26,9 +29,32 @@ class AufplSettingsController extends Controller
 
         $settings = AufplSettings::first();
 
+
+
+
         $settings->update($data);
         if($settings){
-            return redirect()->route('admin.settings')->with('success', 'Settings updated successfully');
+            // check if points for current gameweek is set
+            $gameweek_points = Points::whereGameweek($settings->current_gameweek)->first();
+            if($gameweek_points){
+                Artisan::call('cache:clear');
+                return redirect()->route('admin.settings')->with('success', 'Settings updated successfully');
+            }else{
+                // set default points of 0 for all players
+                $players = Player::all();
+                $data = [];
+                foreach($players as $player){
+                    $data[] = [
+                        'player_id' => $player->player_id,
+                        'gameweek' => $settings->current_gameweek,
+                        'points' => 0,
+                    ];
+                }
+                Points::insert($data);
+                // clear application cache
+                Artisan::call('cache:clear');
+                return redirect()->route('admin.settings')->with('success', 'Settings updated successfully');
+            }
         }
         return redirect()->back()->with('error', 'Something went wrong');
     }
