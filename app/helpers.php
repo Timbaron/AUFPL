@@ -236,7 +236,7 @@ if (!function_exists('getHightestAndAveragePoints')) {
         return [
             'average' => $average,
             'highest' => $highest,
-            'highest_user' => $highest_user->user->name,
+            'highest_user' => $highest_user->user->name ?? '',
         ];
 
         // $selections = Selection::whereGameweek($current_gameweek)->get();
