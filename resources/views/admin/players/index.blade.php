@@ -3,6 +3,11 @@
 @section('title', 'Players Update')
 
 @section('content')
+<!-- Button/link to run artisan command -->
+<div style="text-align:center; " class="m-3">
+    <a href="{{ route('admin.players.Generalupdate') }}" class="btn btn-primary">General Points Update</a>
+</div>
+
 <div class="container" style="color:white">
     <div class="col-md-12">
         @foreach($clubs as $club)

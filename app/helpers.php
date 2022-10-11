@@ -183,7 +183,9 @@ if (!function_exists('getFullPlayerPoints')) {
 
     function getFullPlayerPoints($playerId)
     {
-        $current_gameweek = AufplSettings::first()->current_gameweek;
+        $current_gameweek = Cache::remember('current_gameweek', 3600, function () {
+            return AufplSettings::first()->current_gameweek;
+        });
         $points = PlayerPoint::wherePlayer_id($playerId)->whereGameweek($current_gameweek)->first();
         if(is_null($points)){
             return 0;

@@ -52,6 +52,7 @@ Route::middleware(['auth',Is_approved::class])
                 function () {
                 Route::get('admin/players/points', [PlayerPointController::class, 'edit'])->name('admin.players.points');
                 Route::post('admin/players/points/update', [PlayerPointController::class, 'update'])->name('admin.players.update.points');
+                Route::get('admin/players/general-update', [PlayerPointController::class, 'generalUpdate'])->name('admin.players.Generalupdate');
                 Route::get('admin/players/all', [PlayerController::class, 'index'])->name('admin.players.all');
                 Route::get('admin/players/add', [PlayerController::class, 'add'])->name('admin.players.add');
                 Route::post('admin/players/store', [PlayerController::class, 'store'])->name('admin.players.store');

@@ -9,6 +9,7 @@ use App\Models\PlayerPoint;
 use App\Models\Points;
 use App\Models\Selection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class PlayerPointController extends Controller
@@ -134,6 +135,19 @@ class PlayerPointController extends Controller
             return redirect()->back()->with('success', 'Player point updated');
         } else {
             return redirect()->back()->with('error', 'Player point not updated' . '(', $player->name . ')');
+        }
+    }
+
+    public function generalUpdate(){
+        // run calculate points artisan command
+        $update = Artisan::call('calculate:points');
+        // wait for the artisan command to complete
+        // sleep(2);
+        // check if success
+        if($update){
+            return redirect()->back()->with('error', 'Points update Failed');
+        }else{
+            return redirect()->back()->with('success', 'General Points updated');
         }
     }
 }
