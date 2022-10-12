@@ -32,10 +32,10 @@
                             <label for="position">Position</label>
                             <select name="position" id="position" class="form-control" required>
                                 <option value="">Select Position</option>
-                                <option value="Goalkeeper">Goalkeeper</option>
-                                <option value="Defender">Defender</option>
-                                <option value="Midfielder">Midfielder</option>
-                                <option value="Forward">Forward</option>
+                                <option value="GK">Goalkeeper</option>
+                                <option value="DF">Defender</option>
+                                <option value="MF">Midfielder</option>
+                                <option value="FW">Forward</option>
                             </select>
                         </div>
                         <div class="form-group">
