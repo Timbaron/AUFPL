@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Is_admin;
+use App\Models\AufplSettings;
 use App\Models\Cart;
 use App\Models\Club;
 use App\Models\Player;
+use App\Models\Points;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PlayerController extends Controller
 {
@@ -96,6 +99,16 @@ class PlayerController extends Controller
         ]);
         $data['player_id'] = uniqid('AUFPL-');
         Player::create($data);
+        $current_gameweek = Cache::remember('current_gameweek', 3600, function () {
+            return AufplSettings::where('status', 'current')->first();
+        });
+        // create point for player
+        $pointData = [
+            'player_id' => $data['player_id'],
+            'points' => 0,
+            'gameweek' => $current_gameweek
+        ];
+        Points::create($pointData);
         return redirect()->route('admin.players.all')->with('success', 'Player added successfully');
     }
 
