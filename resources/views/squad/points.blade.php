@@ -48,9 +48,9 @@ $current_gameweek = cache()->remember('current_gameweek', 20, function () {
                         <div style="text-align:center">
                             {{$defender['name']}} <br>
                             <div class="points">
-                                {{$pointers[$defender['player_id']]}}
+                                {{$pointers[$defender['player_id']] ?? 0}}
                                 <?php
-                                $total_points += $pointers[$defender['player_id']];
+                                $total_points += $pointers[$defender['player_id']] ?? 0;
                                 ?>
                             </div>
                         </div>
@@ -73,9 +73,9 @@ $current_gameweek = cache()->remember('current_gameweek', 20, function () {
                         <div style="text-align:center" data-toggle="tooltip" data-placement="top" title="">
                             {{$midfielder['name']}} <br>
                             <div class="points">
-                                {{$pointers[$midfielder['player_id']]}}
+                                {{$pointers[$midfielder['player_id']] ?? 0}}
                                 <?php
-                                $total_points += $pointers[$midfielder['player_id']];
+                                $total_points += $pointers[$midfielder['player_id']] ?? 0;
                                 ?>
                             </div>
                         </div>
@@ -97,9 +97,9 @@ $current_gameweek = cache()->remember('current_gameweek', 20, function () {
                         <div style="text-align:center">
                             {{$forward['name']}} <br>
                             <div class="points">
-                                {{$pointers[$forward['player_id']]}}
+                                {{$pointers[$forward['player_id']] ?? 0}}
                                 <?php
-                                $total_points += $pointers[$forward['player_id']];
+                                $total_points += $pointers[$forward['player_id']] ?? 0;
                                 ?>
                             </div>
                         </div>
@@ -128,9 +128,9 @@ $current_gameweek = cache()->remember('current_gameweek', 20, function () {
             <div style="text-align:center">
                 {{$player['name']}} <br>
                 <div class="points">
-                    {{$pointers[$player['player_id']]}}
+                    {{$pointers[$player['player_id']] ?? 0}}
                     <?php
-                    $sub_points += $pointers[$player['player_id']];
+                    $sub_points += $pointers[$player['player_id']] ?? 0;
                     ?>
                 </div>
             </div>
